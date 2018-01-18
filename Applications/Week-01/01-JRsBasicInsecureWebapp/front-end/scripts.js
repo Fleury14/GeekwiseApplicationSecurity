@@ -10,7 +10,12 @@ function getCars() {
             var newElement = document.createElement("li");
             let edit = `<a href='#' data-carid='${car.id}' data-carmake='${car.make}' data-carmodel='${car.model}' onclick='editCar(event)'>edit</a>`;
             let del = `<a href='#' data-carid='${car.id}' onclick='delCar(event)'>delete</a>`;
-            newElement.innerHTML = `${car.id} Make: ${car.make} Model: ${car.model} ${edit} | ${del}`;
+            if (car.year) {
+                let year = `Year: ${car.year}`;
+            } else {
+                let year = '';
+            }
+            newElement.innerHTML = `${car.id} Make: ${car.make} Model: ${car.model} ${year} ${edit} | ${del}`;
             list.appendChild(newElement);
         });
     });
