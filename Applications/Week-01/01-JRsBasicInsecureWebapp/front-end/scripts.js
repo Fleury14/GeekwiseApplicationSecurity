@@ -26,12 +26,15 @@ function addCar(e) {
     let make = $("#make");
     let model = $("#model");
     let carid = $("#carid");
+    let year = $("year");
+    
 
     let makeVal = make.val();
     let modelVal = model.val();
+    let yearVal = year.val();
 
-    if(makeVal == "" || modelVal == "") {
-        alert('Make and Model cannot be blank');
+    if(makeVal == "" || modelVal == "" || yearVal == "") {
+        alert('Neither Make nor Model nor Year can be blank');
         return;
     }
 
@@ -43,7 +46,7 @@ function addCar(e) {
         $.ajax({
                 method: "PUT",
                 url: `${_baseUrl}:${_port}/api/car/${carid.val()}`,
-                data: { make: make.val(), model: model.val() }
+                data: { make: make.val(), model: model.val(), year: year.val() }
             })
             .done(function(msg) {
                 getCars();
