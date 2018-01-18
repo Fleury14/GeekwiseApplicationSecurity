@@ -39,7 +39,7 @@ function addCar(e) {
     }
 
     if (+carid.val() === 0) {
-        jQuery.post(`${_baseUrl}:${_port}/api/car`, { make: makeVal, model: modelVal }, function(data) {
+        jQuery.post(`${_baseUrl}:${_port}/api/car`, { make: makeVal, model: modelVal, year: yearVal }, function(data) {
             getCars();
         });
     } else {
