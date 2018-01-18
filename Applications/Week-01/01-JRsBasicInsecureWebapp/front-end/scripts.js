@@ -65,16 +65,18 @@ function editCar(e) {
     let make = $("#make");
     let model = $("#model");
     let id = $("#carid");
-    
+    let year = $("#year");
 
     let makeVal = el.data("carmake");
     let modelVal = el.data("carmodel");
     let idVal = el.data("carid");
+    let yearVal = el.data("year");
 
     $("#car-submit").val(`Edit Car #${idVal}`);
     make.val(makeVal);
     model.val(modelVal);
     id.val(idVal);
+    year.val(yearVal);
 }
 
 function delCar(e) {
