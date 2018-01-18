@@ -8,15 +8,9 @@ function getCars() {
     jQuery.get(`${_baseUrl}:3000/api/car`, function(data) {
         data.data.forEach((car) => {
             var newElement = document.createElement("li");
-            let edit = `<a href='#' data-carid='${car.id}' data-carmake='${car.make}' data-carmodel='${car.model}' onclick='editCar(event)'>edit</a>`;
+            let edit = `<a href='#' data-carid='${car.id}' data-carmake='${car.make}' data-carmodel='${car.model}' data-caryear='${car.year}' onclick='editCar(event)'>edit</a>`;
             let del = `<a href='#' data-carid='${car.id}' onclick='delCar(event)'>delete</a>`;
-            // if (car.year) {
-            //     let carYear = `Year: ${car.year}`;
-            // } else {
-            //     let carYear = '';
-            // }
             let carYear = car.year ? `Year: ${car.year}` : '';
-            console.log(carYear);
             newElement.innerHTML = `${car.id} Make: ${car.make} Model: ${car.model} ${carYear} ${edit} | ${del}`;
             list.appendChild(newElement);
         });
@@ -74,7 +68,8 @@ function editCar(e) {
     let makeVal = el.data("carmake");
     let modelVal = el.data("carmodel");
     let idVal = el.data("carid");
-    let yearVal = el.data("year");
+    let yearVal = el.data("caryear");
+    console.log('data:', el.data());
 
     $("#car-submit").val(`Edit Car #${idVal}`);
     make.val(makeVal);
