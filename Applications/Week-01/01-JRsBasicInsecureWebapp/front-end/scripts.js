@@ -10,12 +10,14 @@ function getCars() {
             var newElement = document.createElement("li");
             let edit = `<a href='#' data-carid='${car.id}' data-carmake='${car.make}' data-carmodel='${car.model}' onclick='editCar(event)'>edit</a>`;
             let del = `<a href='#' data-carid='${car.id}' onclick='delCar(event)'>delete</a>`;
-            if (car.year) {
-                let year = `Year: ${car.year}`;
-            } else {
-                let year = '';
-            }
-            newElement.innerHTML = `${car.id} Make: ${car.make} Model: ${car.model} ${year} ${edit} | ${del}`;
+            // if (car.year) {
+            //     let carYear = `Year: ${car.year}`;
+            // } else {
+            //     let carYear = '';
+            // }
+            let carYear = car.year ? `Year: ${car.year}` : '';
+            console.log(carYear);
+            newElement.innerHTML = `${car.id} Make: ${car.make} Model: ${car.model} ${carYear} ${edit} | ${del}`;
             list.appendChild(newElement);
         });
     });
@@ -26,7 +28,7 @@ function addCar(e) {
     let make = $("#make");
     let model = $("#model");
     let carid = $("#carid");
-    let year = $("year");
+    let year = $("#year");
     
 
     let makeVal = make.val();
@@ -39,6 +41,7 @@ function addCar(e) {
     }
 
     if (+carid.val() === 0) {
+        console.log(`sending from 0id results, also year === ${yearVal}`)
         jQuery.post(`${_baseUrl}:${_port}/api/car`, { make: makeVal, model: modelVal, year: yearVal }, function(data) {
             getCars();
         });
@@ -57,6 +60,7 @@ function addCar(e) {
     $("#car-submit").val('Add Car');
     model.val("");
     make.val("");
+    year.val("");
 }
 
 function editCar(e) {
