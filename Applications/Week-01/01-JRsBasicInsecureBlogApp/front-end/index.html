@@ -18,18 +18,24 @@
             <div class="col">
                 <h1>Application Security - Basic Insecure Web Application</h1>
                 <br>
-                <form class="form-inline" id="add-car">
-                    <input type="hidden" id="carid">
-                    <label class="sr-only" for="make">Author</label>
-                    <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="make" placeholder="Honda">
-
-                    <label class="sr-only" for="model">Content</label>
-                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                        <input type="textarea" class="form-control" id="model" placeholder="Civic">
-                    </div>
-
-                    <input type="submit" id="car-submit" class="btn btn-primary" value="Add Car">
-                </form>
+                <div class="add-new-blog-form">
+                    <form id="add-car">
+                        <input type="hidden" id="carid">
+                        <label class="sr-only" for="make">Author</label>
+                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="make" placeholder="My Name">
+    
+                        <label class="sr-only" for="model">Content</label>
+                        <br>
+                        <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                            <textarea class="form-control" id="model" placeholder="Thoughts" rows="5"></textarea>
+                        </div>
+                        <div class="submit-button-container">
+                            <input type="submit" id="car-submit" class="btn btn-primary" value="Add Car">
+                        </div>
+                        
+                    </form>
+                </div>
+                                
                 <br>
                 <div class="car-container">
                     <h3>Cars:</h3>
