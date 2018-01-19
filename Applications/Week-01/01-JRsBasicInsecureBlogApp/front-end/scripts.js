@@ -15,21 +15,38 @@ function getCars() {
             
             // newElement.innerHTML = `${car.id} Make: ${car.make} Model: ${car.model} ${edit} | ${del}`;
             // list.appendChild(newElement);
-
+            let postDate = formatDate(new Date(car.created_at));
             let newBlogItem = document.createElement('div');
-            let author = `<h3>Posted by ${car.make}</h3>`;
+            let author = `<h4>Posted by ${car.make}</h4>`;
             let body = `<p>${car.model}</p>`;
+            let date = `<p>${postDate}</p>`
             let buttonRow = `<div class="blog-item-button-row">
             <a href="#" data-carid="${car.id}" onclick="delCar(event)" class="btn btn-danger">Delete Car</a>
             <a href="#" data-carid="${car.id}" data-carmake="${car.make}" data-carmodel="${car.model}" onclick="editCar(event)" class="btn btn-success">Edit Car</a>
             </div>`;
-            newBlogItem.innerHTML = author + body + buttonRow;
+            newBlogItem.innerHTML = author + body + date + buttonRow;
             newBlogItem.classList.add('blog-item');
+            console.log(new Date(car.created_at));
             blogContainer.appendChild(newBlogItem);
 
         });
     });
 }
+
+function formatDate(date) {
+    var monthNames = [
+      "January", "February", "March",
+      "April", "May", "June", "July",
+      "August", "September", "October",
+      "November", "December"
+    ];
+  
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear();
+  
+    return day + ' ' + monthNames[monthIndex] + ' ' + year;
+  }
 
 function addCar(e) {
     e.preventDefault();
