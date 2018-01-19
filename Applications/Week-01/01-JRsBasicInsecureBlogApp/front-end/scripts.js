@@ -85,6 +85,11 @@ function delCar(e) {
     }
 }
 
+function toggleForm() {
+    const form = document.getElementById('addBlogForm');
+    form.classList.toggle('hide-form');
+}
+
 
 // run getCars on 
 $(function() {
@@ -92,5 +97,6 @@ $(function() {
     _baseUrl = `http://${window.location.hostname}`;
     getCars();
     $("#add-car").on('submit', addCar);
-   
+    document.getElementById('addBlogPostButton').addEventListener('click', toggleForm);
+    // document.getElementById('hideAddForm').addEventListener('click', toggleForm);
 });

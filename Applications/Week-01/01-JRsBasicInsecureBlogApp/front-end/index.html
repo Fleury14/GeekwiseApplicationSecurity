@@ -18,7 +18,7 @@
             <div class="col">
                 <h1>Application Security - Basic Insecure Web Application</h1>
                 <br>
-                <div class="add-new-blog-form">
+                <div class="add-new-blog-form hide-form" id="addBlogForm">
                     <form id="add-car">
                         <input type="hidden" id="carid">
                         <label class="sr-only" for="make">Author</label>
@@ -30,12 +30,13 @@
                             <textarea class="form-control" id="model" placeholder="Thoughts" rows="5"></textarea>
                         </div>
                         <div class="submit-button-container">
+                            <div class="btn btn-danger" id="hideAddForm" onclick="toggleForm()">Hide Form</div>
                             <input type="submit" id="car-submit" class="btn btn-primary" value="Add Car">
                         </div>
                         
                     </form>
                 </div>
-                                
+                 <button class="btn btn-success" id="addBlogPostButton">Add new Post</button>               
                 <br>
                 <div class="car-container">
                     <h3>Cars:</h3>
