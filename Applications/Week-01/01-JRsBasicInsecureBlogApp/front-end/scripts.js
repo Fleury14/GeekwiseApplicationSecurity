@@ -3,6 +3,8 @@ let _baseUrl = "http://localhost";
 let _port = "3000";
 
 function getCars() {
+    let blogContainer = document.getElementById('blog-list');
+    blogContainer.innerHTML = '';
     let list = document.getElementById("car-list");
     list.innerHTML = "";
     jQuery.get(`${_baseUrl}:3000/api/car`, function(data) {
@@ -12,6 +14,13 @@ function getCars() {
             let del = `<a href='#' data-carid='${car.id}' onclick='delCar(event)'>delete</a>`;
             newElement.innerHTML = `${car.id} Make: ${car.make} Model: ${car.model} ${edit} | ${del}`;
             list.appendChild(newElement);
+
+            let newBlogItem = document.createElement('div');
+            let author = `<h3>Posted by ${car.make}</h3>`;
+            let body = `<p>${car.model}</p>`;
+            newBlogItem.innerHTML = author + body;
+            blogContainer.appendChild(newBlogItem);
+
         });
     });
 }
