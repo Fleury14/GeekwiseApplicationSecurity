@@ -24,3 +24,16 @@
 .hide-form {
     left: -80%;
 }
+
+.blog-item {
+    padding: 10px;
+    background-color: #eef;
+    border: 2px solid #bbf;
+    border-radius: 10px;
+    margin: 10px 0px;
+}
+
+.blog-item-button-row {
+    display: flex;
+    justify-content: space-around;
+}

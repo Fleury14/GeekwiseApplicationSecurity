@@ -5,20 +5,26 @@ let _port = "3000";
 function getCars() {
     let blogContainer = document.getElementById('blog-list');
     blogContainer.innerHTML = '';
-    let list = document.getElementById("car-list");
-    list.innerHTML = "";
+    // let list = document.getElementById("car-list");
+    // list.innerHTML = "";
     jQuery.get(`${_baseUrl}:3000/api/car`, function(data) {
         data.data.forEach((car) => {
-            var newElement = document.createElement("li");
-            let edit = `<a href='#' data-carid='${car.id}' data-carmake='${car.make}' data-carmodel='${car.model}' onclick='editCar(event)'>edit</a>`;
-            let del = `<a href='#' data-carid='${car.id}' onclick='delCar(event)'>delete</a>`;
-            newElement.innerHTML = `${car.id} Make: ${car.make} Model: ${car.model} ${edit} | ${del}`;
-            list.appendChild(newElement);
+            // var newElement = document.createElement("li");
+            // let edit = `<a href='#' data-carid='${car.id}' data-carmake='${car.make}' data-carmodel='${car.model}' onclick='editCar(event)'>edit</a>`;
+            // let del = `<a href='#' data-carid='${car.id}' onclick='delCar(event)'>delete</a>`;
+            
+            // newElement.innerHTML = `${car.id} Make: ${car.make} Model: ${car.model} ${edit} | ${del}`;
+            // list.appendChild(newElement);
 
             let newBlogItem = document.createElement('div');
             let author = `<h3>Posted by ${car.make}</h3>`;
             let body = `<p>${car.model}</p>`;
-            newBlogItem.innerHTML = author + body;
+            let buttonRow = `<div class="blog-item-button-row">
+            <a href="#" data-carid="${car.id}" onclick="delCar(event)" class="btn btn-danger">Delete Car</a>
+            <a href="#" data-carid="${car.id}" data-carmake="${car.make}" data-carmodel="${car.model}" onclick="editCar(event)" class="btn btn-success">Edit Car</a>
+            </div>`;
+            newBlogItem.innerHTML = author + body + buttonRow;
+            newBlogItem.classList.add('blog-item');
             blogContainer.appendChild(newBlogItem);
 
         });
