@@ -58,6 +58,7 @@ function addCar(e) {
     $("#car-submit").val('Add Car');
     model.val("");
     make.val("");
+    toggleForm();
 }
 
 function editCar(e) {
@@ -76,6 +77,7 @@ function editCar(e) {
     make.val(makeVal);
     model.val(modelVal);
     id.val(idVal);
+    toggleForm();
 }
 
 function delCar(e) {
