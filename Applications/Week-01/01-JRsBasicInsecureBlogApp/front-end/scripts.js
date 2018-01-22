@@ -19,10 +19,10 @@ function getCars() {
             let newBlogItem = document.createElement('div');
             let author = `<h4>Posted by ${car.make}</h4>`;
             let body = `<p>${car.model}</p>`;
-            let date = `<p>${postDate}</p>`
+            let date = `<p>${postDate}</p>`;
             let buttonRow = `<div class="blog-item-button-row">
-            <a href="#" data-carid="${car.id}" onclick="delCar(event)" class="btn btn-danger">Delete Post</a>
-            <a href="#" data-carid="${car.id}" data-carmake="${car.make}" data-carmodel="${car.model}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
+            <a href="#" data-blogid="${car.id}" onclick="delCar(event)" class="btn btn-danger">Delete Post</a>
+            <a href="#" data-blogid="${car.id}" data-blogauthor="${car.make}" data-blogcontent="${car.model}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
             </div>`;
             newBlogItem.innerHTML = author + body + date + buttonRow;
             newBlogItem.classList.add('blog-item');
@@ -50,27 +50,27 @@ function formatDate(date) {
 
 function addCar(e) {
     e.preventDefault();
-    let make = $("#make");
-    let model = $("#model");
-    let carid = $("#carid");
+    let author = $("#author");
+    let content = $("#content");
+    let blogid = $("#blogid");
 
-    let makeVal = make.val();
-    let modelVal = model.val();
+    let authorVal = author.val();
+    let contentVal = content.val();
 
-    if(makeVal == "" || modelVal == "") {
-        alert('Make and Model cannot be blank');
+    if(authorVal == "" || contentVal == "") {
+        alert('Author and Content cannot be blank');
         return;
     }
 
-    if (+carid.val() === 0) {
-        jQuery.post(`${_baseUrl}:${_port}/api/car`, { make: makeVal, model: modelVal }, function(data) {
+    if (+blogid.val() === 0) {
+        jQuery.post(`${_baseUrl}:${_port}/api/car`, { make: authorVal, model: contentVal }, function(data) {
             getCars();
         });
     } else {
         $.ajax({
                 method: "PUT",
-                url: `${_baseUrl}:${_port}/api/car/${carid.val()}`,
-                data: { make: make.val(), model: model.val() }
+                url: `${_baseUrl}:${_port}/api/car/${blogid.val()}`,
+                data: { make: author.val(), model: content.val() }
             })
             .done(function(msg) {
                 getCars();
@@ -78,27 +78,27 @@ function addCar(e) {
     }
 
     carid.val(0);
-    $("#car-submit").val('Add Car');
-    model.val("");
-    make.val("");
+    $("#blog-submit").val('Add Car');
+    author.val("");
+    content.val("");
     toggleForm();
 }
 
 function editCar(e) {
     e.preventDefault();
     let el = $(e.srcElement);
-    let make = $("#make");
-    let model = $("#model");
-    let id = $("#carid");
+    let author = $("#author");
+    let content = $("#content");
+    let id = $("#blogid");
     
 
-    let makeVal = el.data("carmake");
-    let modelVal = el.data("carmodel");
-    let idVal = el.data("carid");
+    let authorVal = el.data("blogauthor");
+    let contentVal = el.data("blogcontent");
+    let idVal = el.data("blogid");
 
-    $("#car-submit").val(`Edit Car #${idVal}`);
-    make.val(makeVal);
-    model.val(modelVal);
+    $("#blog-submit").val(`Edit Car #${idVal}`);
+    author.val(authorVal);
+    content.val(contentVal);
     id.val(idVal);
     toggleForm();
 }
