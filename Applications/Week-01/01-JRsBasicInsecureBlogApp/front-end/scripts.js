@@ -8,21 +8,21 @@ function getCars() {
     // let list = document.getElementById("car-list");
     // list.innerHTML = "";
     jQuery.get(`${_baseUrl}:3000/api/car`, function(data) {
-        data.data.forEach((car) => {
+        data.data.forEach((blogpost) => {
             // var newElement = document.createElement("li");
             // let edit = `<a href='#' data-carid='${car.id}' data-carmake='${car.make}' data-carmodel='${car.model}' onclick='editCar(event)'>edit</a>`;
             // let del = `<a href='#' data-carid='${car.id}' onclick='delCar(event)'>delete</a>`;
             
             // newElement.innerHTML = `${car.id} Make: ${car.make} Model: ${car.model} ${edit} | ${del}`;
             // list.appendChild(newElement);
-            let postDate = formatDate(new Date(car.created_at));
+            let postDate = formatDate(new Date(blogpost.created_at));
             let newBlogItem = document.createElement('div');
-            let author = `<h4>Posted by ${car.make}</h4>`;
-            let body = `<p>${car.model}</p>`;
+            let author = `<h4>Posted by ${blogpost.author}</h4>`;
+            let body = `<p>${blogpost.content}</p>`;
             let date = `<p>${postDate}</p>`;
             let buttonRow = `<div class="blog-item-button-row">
-            <a href="#" data-blogid="${car.id}" onclick="delCar(event)" class="btn btn-danger">Delete Post</a>
-            <a href="#" data-blogid="${car.id}" data-blogauthor="${car.make}" data-blogcontent="${car.model}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
+            <a href="#" data-blogid="${blogpost.id}" onclick="delCar(event)" class="btn btn-danger">Delete Post</a>
+            <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.content}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
             </div>`;
             newBlogItem.innerHTML = author + body + date + buttonRow;
             newBlogItem.classList.add('blog-item');
@@ -62,14 +62,14 @@ function addCar(e) {
     }
 
     if (+blogid.val() === 0) {
-        jQuery.post(`${_baseUrl}:${_port}/api/car`, { make: authorVal, model: contentVal }, function(data) {
+        jQuery.post(`${_baseUrl}:${_port}/api/car`, { author: authorVal, content: contentVal }, function(data) {
             getCars();
         });
     } else {
         $.ajax({
                 method: "PUT",
                 url: `${_baseUrl}:${_port}/api/car/${blogid.val()}`,
-                data: { make: author.val(), model: content.val() }
+                data: { author: author.val(), content: content.val() }
             })
             .done(function(msg) {
                 getCars();
