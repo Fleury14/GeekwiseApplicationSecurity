@@ -8,25 +8,24 @@ function getCars() {
     // let list = document.getElementById("car-list");
     // list.innerHTML = "";
     jQuery.get(`${_baseUrl}:3000/api/car`, function(data) {
-        data.data.forEach((car) => {
+        data.data.forEach((blogpost) => {
             // var newElement = document.createElement("li");
             // let edit = `<a href='#' data-carid='${car.id}' data-carmake='${car.make}' data-carmodel='${car.model}' onclick='editCar(event)'>edit</a>`;
             // let del = `<a href='#' data-carid='${car.id}' onclick='delCar(event)'>delete</a>`;
             
             // newElement.innerHTML = `${car.id} Make: ${car.make} Model: ${car.model} ${edit} | ${del}`;
             // list.appendChild(newElement);
-            let postDate = formatDate(new Date(car.created_at));
+            let postDate = formatDate(new Date(blogpost.created_at));
             let newBlogItem = document.createElement('div');
-            let author = `<h4>Posted by ${car.make}</h4>`;
-            let body = `<p>${car.model}</p>`;
-            let date = `<p>${postDate}</p>`
+            let author = `<h4>Posted by ${blogpost.author}</h4>`;
+            let body = `<p>${blogpost.content}</p>`;
+            let date = `<p>${postDate}</p>`;
             let buttonRow = `<div class="blog-item-button-row">
-            <a href="#" data-carid="${car.id}" onclick="delCar(event)" class="btn btn-danger">Delete Post</a>
-            <a href="#" data-carid="${car.id}" data-carmake="${car.make}" data-carmodel="${car.model}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
+            <a href="#" data-blogid="${blogpost.id}" onclick="delCar(event)" class="btn btn-danger">Delete Post</a>
+            <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.content}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
             </div>`;
             newBlogItem.innerHTML = author + body + date + buttonRow;
             newBlogItem.classList.add('blog-item');
-            console.log(new Date(car.created_at));
             blogContainer.appendChild(newBlogItem);
 
         });
@@ -50,55 +49,55 @@ function formatDate(date) {
 
 function addCar(e) {
     e.preventDefault();
-    let make = $("#make");
-    let model = $("#model");
-    let carid = $("#carid");
+    let author = $("#author");
+    let content = $("#content");
+    let blogid = $("#blogid");
 
-    let makeVal = make.val();
-    let modelVal = model.val();
+    let authorVal = author.val();
+    let contentVal = content.val();
 
-    if(makeVal == "" || modelVal == "") {
-        alert('Make and Model cannot be blank');
+    if(authorVal == "" || contentVal == "") {
+        alert('Author and Content cannot be blank');
         return;
     }
 
-    if (+carid.val() === 0) {
-        jQuery.post(`${_baseUrl}:${_port}/api/car`, { make: makeVal, model: modelVal }, function(data) {
+    if (+blogid.val() === 0) {
+        jQuery.post(`${_baseUrl}:${_port}/api/car`, { author: authorVal, content: contentVal }, function(data) {
             getCars();
         });
     } else {
         $.ajax({
                 method: "PUT",
-                url: `${_baseUrl}:${_port}/api/car/${carid.val()}`,
-                data: { make: make.val(), model: model.val() }
+                url: `${_baseUrl}:${_port}/api/car/${blogid.val()}`,
+                data: { author: author.val(), content: content.val() }
             })
             .done(function(msg) {
                 getCars();
             });
     }
 
-    carid.val(0);
-    $("#car-submit").val('Add Car');
-    model.val("");
-    make.val("");
+    blogid.val(0);
+    $("#blog-submit").val('Add Car');
+    author.val("");
+    content.val("");
     toggleForm();
 }
 
 function editCar(e) {
     e.preventDefault();
     let el = $(e.srcElement);
-    let make = $("#make");
-    let model = $("#model");
-    let id = $("#carid");
+    let author = $("#author");
+    let content = $("#content");
+    let id = $("#blogid");
     
 
-    let makeVal = el.data("carmake");
-    let modelVal = el.data("carmodel");
-    let idVal = el.data("carid");
+    let authorVal = el.data("blogauthor");
+    let contentVal = el.data("blogcontent");
+    let idVal = el.data("blogid");
 
-    $("#car-submit").val(`Edit Car #${idVal}`);
-    make.val(makeVal);
-    model.val(modelVal);
+    $("#blog-submit").val(`Edit Blog #${idVal}`);
+    author.val(authorVal);
+    content.val(contentVal);
     id.val(idVal);
     toggleForm();
 }
@@ -107,11 +106,11 @@ function delCar(e) {
     e.preventDefault();
     
     let el = $(e.srcElement);
-    let carid = el.data("carid");
-    if(confirm(`Are you sure you want to delete car #${carid}`)) {
+    let blogid = el.data("blogid");
+    if(confirm(`Are you sure you want to delete post #${blogid}`)) {
         $.ajax({
                 method: "DELETE",
-                url: `${_baseUrl}:${_port}/api/car/${carid}`
+                url: `${_baseUrl}:${_port}/api/car/${blogid}`
             })
             .done(function(msg) {
                 getCars();
@@ -120,6 +119,7 @@ function delCar(e) {
 }
 
 function toggleForm() {
+    // console.log('toggling form...');
     const form = document.getElementById('addBlogForm');
     form.classList.toggle('hide-form');
 }
