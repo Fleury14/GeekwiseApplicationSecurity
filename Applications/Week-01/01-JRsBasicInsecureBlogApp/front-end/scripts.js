@@ -26,7 +26,6 @@ function getCars() {
             </div>`;
             newBlogItem.innerHTML = author + body + date + buttonRow;
             newBlogItem.classList.add('blog-item');
-            console.log(new Date(car.created_at));
             blogContainer.appendChild(newBlogItem);
 
         });
@@ -77,7 +76,7 @@ function addCar(e) {
             });
     }
 
-    carid.val(0);
+    blogid.val(0);
     $("#blog-submit").val('Add Car');
     author.val("");
     content.val("");
@@ -96,7 +95,7 @@ function editCar(e) {
     let contentVal = el.data("blogcontent");
     let idVal = el.data("blogid");
 
-    $("#blog-submit").val(`Edit Car #${idVal}`);
+    $("#blog-submit").val(`Edit Blog #${idVal}`);
     author.val(authorVal);
     content.val(contentVal);
     id.val(idVal);
@@ -107,11 +106,11 @@ function delCar(e) {
     e.preventDefault();
     
     let el = $(e.srcElement);
-    let carid = el.data("carid");
-    if(confirm(`Are you sure you want to delete car #${carid}`)) {
+    let blogid = el.data("blogid");
+    if(confirm(`Are you sure you want to delete post #${blogid}`)) {
         $.ajax({
                 method: "DELETE",
-                url: `${_baseUrl}:${_port}/api/car/${carid}`
+                url: `${_baseUrl}:${_port}/api/car/${blogid}`
             })
             .done(function(msg) {
                 getCars();
@@ -120,6 +119,7 @@ function delCar(e) {
 }
 
 function toggleForm() {
+    // console.log('toggling form...');
     const form = document.getElementById('addBlogForm');
     form.classList.toggle('hide-form');
 }
