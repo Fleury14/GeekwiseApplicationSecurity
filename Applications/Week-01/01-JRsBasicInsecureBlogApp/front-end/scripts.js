@@ -124,6 +124,10 @@ function toggleForm() {
     form.classList.toggle('hide-form');
 }
 
+function toggleSearch() {
+    document.getElementById('searchContainer').classList.toggle('hide-search');
+}
+
 
 // run getCars on 
 $(function() {
