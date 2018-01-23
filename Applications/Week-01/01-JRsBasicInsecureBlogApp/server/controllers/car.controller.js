@@ -4,6 +4,8 @@ const Common = require('./common');
 
 class CarController {
     constructor(router) {
+        router.route('/car/search')
+            .post(this.search);
         router.route('/car/:id')
             .get(this.getOne)
             .put(this.updateOne)
@@ -99,6 +101,21 @@ class CarController {
             }
         } catch (e) {
             return Common.resultErr(res, e);
+        }
+    }
+
+    async search(req, res, next) {
+        try {
+            const data = await CarDb.search(req.body.search);
+            if (data) {
+                let posts = data.map(p => { return new Car(p) });
+                return Common.resultOk(res, posts);
+            } else {
+                return Common.resultOk([]);
+            }
+        } catch(e) {
+            console.log('catch', e);
+            return Common.resultErr(res, e.message);
         }
     }
 }
