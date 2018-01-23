@@ -55,7 +55,7 @@ class CarDb {
 
     static search(param) {
         // let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND content ILIKE '%${param}%' OR author ILIKE '%${param}%'`;
-        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND make = '${param}'`;
+        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND content = '${param}'`;
         console.log(query);
         return db.any(query);
     }
