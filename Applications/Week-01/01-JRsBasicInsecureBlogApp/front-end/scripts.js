@@ -23,6 +23,7 @@ function getCars() {
             let date = `<p>${postDate}</p>`;
             let buttonRow = `<div class="blog-item-button-row">
             <a href="#" data-blogid="${blogpost.id}" onclick="delCar(event)" class="btn btn-danger">Delete Post</a>
+            <span class="text-center">${blogpost.id}</span>
             <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.content}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
             </div>`;
             newBlogItem.innerHTML = author + body + date + buttonRow;
