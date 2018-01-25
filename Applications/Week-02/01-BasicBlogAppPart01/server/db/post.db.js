@@ -30,21 +30,21 @@ class PostDb {
     static deleteOne(id) {
         id = parseInt(id);
         //let query = `DELETE FROM ${TABLENAME} WHERE id = ${id}`;
-        let query = `UPDATE ${TABLENAME} SET is_deleted=true WHERE id = ${id}`;
-        console.log(query);
-        return db.result(query, [], r => r.rowCount);
+        let query = `UPDATE ${TABLENAME} SET is_deleted=true WHERE id = $1`;
+        console.log(query, [id]);
+        return db.result(query, [id], r => r.rowCount);
     }
 
     static insertOne(data) {
         let params = [];
         let values = [];
-        Object.keys(data).forEach((key) => {
-            params.push(key);
-            values.push(`'${data[key]}'`);
-        });
-        let query = `INSERT into ${TABLENAME} (${params.join()}) VALUES(${values.join()}) RETURNING *`;
+        // Object.keys(data).forEach((key) => {
+        //     params.push(key);
+        //     values.push(`'${data[key]}'`);
+        // });
+        let query = `INSERT into posts (title, post, author) VALUES ($1, $2, $3) RETURNING *`;
         console.log(query);
-        return db.one(query);
+        return db.one(query, [data['title'], data['post'], data['author']]);
     }
 
     static getTotal() {
@@ -53,11 +53,35 @@ class PostDb {
         return db.one(query, [], a => +a.count);
     }
 
-    static search(param) {
-        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND post ILIKE '%${param}%' OR author ILIKE '%${param}%'`;
-        //let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND make = '${param}'`;
+    static search(param, field, order) {
+        // let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND post ILIKE '%${param}%' OR author ILIKE '%${param}%'`;
+        // console.log(param, field, order);
+        let targetField;
+        switch(field) {
+            case 'Author':
+                targetField = 'author';
+                break;
+            case 'Id':
+                targetField = 'id';
+                break;
+            case 'Title':
+                targetField = 'title';
+                break;
+            default:
+                console.log('Error: Unknown Field, defaulting to id');
+                targetField = 'id';
+                break;
+        }
+
+        if (order !== 'Ascending' && order !== 'Descending') {
+            console.log('Unknown order, defaulting to ascending');
+            order = 'Ascending';
+            return;
+        }
+        console.log(`Search input: ${param}, target field: ${targetField}`);
+        let query = `SELECT * FROM posts WHERE is_deleted=false AND author = $1 ORDER BY ${targetField} ${order === 'Ascending' ? 'ASC' : 'DESC'}`;
         console.log(query);
-        return db.any(query);
+        return db.any(query, [param, targetField]);
     }
 }
 
