@@ -19,12 +19,12 @@ class CarDb {
     static updateOne(id, data) {
         id = parseInt(id);
         let params = [];
-        Object.keys(data).forEach((key) => {
-            params.push(`${key} = '${data[key]}'`);
-        });
-        let query = `UPDATE ${TABLENAME} SET ${params.join()} WHERE is_deleted=false AND id = ${id} RETURNING *`;
-        console.log(query);
-        return db.one(query);
+        // Object.keys(data).forEach((key) => {
+        //     params.push(`${key} = '${data[key]}'`);
+        // });
+        let query = `UPDATE ${TABLENAME} SET author = $1, content = $2 WHERE is_deleted=false AND id = ${id} RETURNING *`;
+        console.log(query, data['author'], data['content']);
+        return db.one(query, [data['author'], data['content']]);
     }
 
     static deleteOne(id) {
@@ -54,10 +54,15 @@ class CarDb {
     }
 
     static search(param, order) {
+        // make sure order is a valid input, warn if its not and reset to asc.
+        if(!(order === 'ASC' || order === 'DESC')) {
+            console.log('Warning: Unknown order passed to search. Resetting to ascending order.');
+            order = 'ASC';
+        }
         // let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND content ILIKE '%${param}%' OR author ILIKE '%${param}%'`;
-        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND author = '${param}' ORDER BY id ${order}`;
-        console.log(query);
-        return db.any(query);
+        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND author = $1 ORDER BY id ${order}`;
+        console.log(query, param);
+        return db.any(query, [param]);
     }
 }
 
