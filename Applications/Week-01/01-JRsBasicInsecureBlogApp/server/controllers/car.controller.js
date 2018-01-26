@@ -106,7 +106,7 @@ class CarController {
 
     async search(req, res, next) {
         try {
-            const data = await CarDb.search(req.body.search);
+            const data = await CarDb.search(req.body.search, req.body.order);
             if (data) {
                 let posts = data.map(p => { return new Car(p) });
                 return Common.resultOk(res, posts);

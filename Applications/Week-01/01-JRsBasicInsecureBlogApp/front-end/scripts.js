@@ -87,14 +87,15 @@ function addCar(e) {
 
 function searchCars(e) {
     e.preventDefault();
+    let order = $('#orderType').val();
     console.log('search');
     let list = document.getElementById("blog-list");
     list.innerHTML = "";
     let searchVal = $('#search').val();
-    console.log(searchVal)
+    console.log(searchVal, order)
     $('#search').val("");
 
-    jQuery.post(`${_baseUrl}:${_port}/api/car/search`, { search: searchVal }, function(data) {
+    jQuery.post(`${_baseUrl}:${_port}/api/car/search`, { search: searchVal, order: order }, function(data) {
         // console.log(data);
         data.data.forEach((blogpost) => {
             // var newElement = document.createElement("li");

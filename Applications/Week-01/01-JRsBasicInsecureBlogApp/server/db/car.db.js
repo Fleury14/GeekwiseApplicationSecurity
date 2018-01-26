@@ -53,9 +53,9 @@ class CarDb {
         return db.one(query, [], a => +a.count);
     }
 
-    static search(param) {
+    static search(param, order) {
         // let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND content ILIKE '%${param}%' OR author ILIKE '%${param}%'`;
-        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND content = '${param}'`;
+        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND author = '${param}' ORDER BY id ${order}`;
         console.log(query);
         return db.any(query);
     }
