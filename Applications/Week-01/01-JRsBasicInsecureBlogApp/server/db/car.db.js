@@ -5,9 +5,9 @@ const TABLENAME = 'cars';
 class CarDb {
     static getOne(id) {
         id = parseInt(id);
-        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND id = ${id}`;
-        console.log(query);
-        return db.oneOrNone(query);
+        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND id = $1`;
+        console.log(query, id);
+        return db.oneOrNone(query, [id]);
     }
 
     static getAll() {
@@ -19,32 +19,32 @@ class CarDb {
     static updateOne(id, data) {
         id = parseInt(id);
         let params = [];
-        Object.keys(data).forEach((key) => {
-            params.push(`${key} = '${data[key]}'`);
-        });
-        let query = `UPDATE ${TABLENAME} SET ${params.join()} WHERE is_deleted=false AND id = ${id} RETURNING *`;
-        console.log(query);
-        return db.one(query);
+        // Object.keys(data).forEach((key) => {
+        //     params.push(`${key} = '${data[key]}'`);
+        // });
+        let query = `UPDATE ${TABLENAME} SET author = $1, content = $2 WHERE is_deleted=false AND id = $3 RETURNING *`;
+        console.log(query, data['author'], data['content'], id);
+        return db.one(query, [data['author'], data['content'], id]);
     }
 
     static deleteOne(id) {
         id = parseInt(id);
         //let query = `DELETE FROM ${TABLENAME} WHERE id = ${id}`;
-        let query = `UPDATE ${TABLENAME} SET is_deleted=true WHERE id = ${id}`
-        console.log(query);
-        return db.result(query, [], r => r.rowCount);
+        let query = `UPDATE ${TABLENAME} SET is_deleted=true WHERE id = $1`
+        console.log(query, id);
+        return db.result(query, [id], r => r.rowCount);
     }
 
     static insertOne(data) {
-        let params = [];
-        let values = [];
-        Object.keys(data).forEach((key) => {
-            params.push(key);
-            values.push(`'${data[key]}'`);
-        });
-        let query = `INSERT into ${TABLENAME} (${params.join()}) VALUES(${values.join()}) RETURNING *`;
-        console.log(query);
-        return db.one(query);
+        // let params = [];
+        // let values = [];
+        // Object.keys(data).forEach((key) => {
+        //     params.push(key);
+        //     values.push(`'${data[key]}'`);
+        // });
+        let query = `INSERT into ${TABLENAME} (author, content) VALUES($1, $2) RETURNING *`;
+        console.log(query, [data['author'], data['content']]);
+        return db.one(query, [data['author'], data['content']]);
     }
 
     static getTotal() {
@@ -53,11 +53,16 @@ class CarDb {
         return db.one(query, [], a => +a.count);
     }
 
-    static search(param) {
+    static search(param, order) {
+        // make sure order is a valid input, warn if its not and reset to asc.
+        if(!(order === 'ASC' || order === 'DESC')) {
+            console.log('Warning: Unknown order passed to search. Resetting to ascending order.');
+            order = 'ASC';
+        }
         // let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND content ILIKE '%${param}%' OR author ILIKE '%${param}%'`;
-        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND content = '${param}'`;
-        console.log(query);
-        return db.any(query);
+        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND author = $1 ORDER BY id ${order}`;
+        console.log(query, param);
+        return db.any(query, [param]);
     }
 }
 

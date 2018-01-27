@@ -1,4 +1,4 @@
-class Car {
+class BlogPost {
     constructor(obj) {
         obj && Object.assign(this, obj);
     }
@@ -8,4 +8,4 @@ class Car {
     }
 }
 
-module.exports = Car;
+module.exports = BlogPost;

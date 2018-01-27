@@ -1,8 +1,8 @@
-const Car = require('../models/car.model');
+const BlogPost = require('../models/blogpost.model');
 const CarDb = require('../db/car.db');
 const Common = require('./common');
 
-class CarController {
+class BlogController {
     constructor(router) {
         router.route('/car/search')
             .post(this.search);
@@ -19,7 +19,7 @@ class CarController {
         try {
             const data = await CarDb.getOne(req.params.id);
             if (data) {
-                let car = new Car(data);
+                let car = new BlogPost(data);
                 return Common.resultOk(res, car);
             } else {
                 return Common.resultNotFound(res);
@@ -38,7 +38,7 @@ class CarController {
         try {
             const data = await CarDb.updateOne(req.params.id, req.body);
             if (data) {
-                let car = new Car(data);
+                let car = new BlogPost(data);
                 return Common.resultOk(res, car);
             } else {
                 return Common.resultNotFound(res);
@@ -57,7 +57,7 @@ class CarController {
         try {
             const data = await CarDb.insertOne(req.body);
             if (data) {
-                let car = new Car(data);
+                let car = new BlogPost(data);
                 return Common.resultOk(res, car);
             } else {
                 return Common.resultNotFound(res);
@@ -94,7 +94,7 @@ class CarController {
         try {
             const data = await CarDb.getAll();
             if (data) {
-                let cars = data.map(car => { return new Car(car) });
+                let cars = data.map(car => { return new BlogPost(car) });
                 return Common.resultOk(res, cars);
             } else {
                 return Common.resultNotFound(res);
@@ -106,9 +106,9 @@ class CarController {
 
     async search(req, res, next) {
         try {
-            const data = await CarDb.search(req.body.search);
+            const data = await CarDb.search(req.body.search, req.body.order);
             if (data) {
-                let posts = data.map(p => { return new Car(p) });
+                let posts = data.map(p => { return new BlogPost(p) });
                 return Common.resultOk(res, posts);
             } else {
                 return Common.resultOk([]);
@@ -120,4 +120,4 @@ class CarController {
     }
 }
 
-module.exports = CarController;
+module.exports = BlogController;

@@ -54,6 +54,16 @@
     margin-left: 20px;
 }
 
+.order-select {
+    margin-left: 20px;
+}
+
+@media only screen and (max-width: 992px) {
+    .search-container {
+        height: 180px;
+    }
+}
+
 .hide-search {
     height: 10px;
     overflow: hidden;
