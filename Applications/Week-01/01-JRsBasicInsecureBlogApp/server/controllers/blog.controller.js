@@ -2,7 +2,7 @@ const BlogPost = require('../models/blogpost.model');
 const CarDb = require('../db/car.db');
 const Common = require('./common');
 
-class CarController {
+class BlogController {
     constructor(router) {
         router.route('/car/search')
             .post(this.search);
@@ -120,4 +120,4 @@ class CarController {
     }
 }
 
-module.exports = CarController;
+module.exports = BlogController;
