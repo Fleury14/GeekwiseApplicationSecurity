@@ -120,9 +120,17 @@ function searchCars(e) {
             <a href="#" data-blogid="${blogpost.id}" onclick="delCar(event)" class="btn btn-danger">Delete Post</a>
             <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.content}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
             </div>`;
-            newBlogItem.innerHTML = author + body + date + buttonRow;
-            newBlogItem.classList.add('blog-item');
-            list.appendChild(newBlogItem);
+            // newBlogItem.innerHTML = author + body + date + buttonRow;
+            let unsafe = author + body + date + buttonRow;
+            $.post(`${_baseUrl}:3000/api/html`, {htmlData: unsafe}, function(newHTML) {
+                // console.log('calling html parse API');
+                // console.log('recieved', newHTML.data);
+                newBlogItem.innerHTML = newHTML.data;
+                newBlogItem.classList.add('blog-item');
+                list.appendChild(newBlogItem);
+            });
+            // newBlogItem.classList.add('blog-item');
+            // list.appendChild(newBlogItem);
         });
     });
 }
