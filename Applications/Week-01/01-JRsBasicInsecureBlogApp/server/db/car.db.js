@@ -65,6 +65,12 @@ class CarDb {
         console.log(query, param);
         return db.any(query, [param]);
     }
+
+    static htmlParse(htmlData) {
+        console.log('Parsing following HTML for sanitization:', htmlData);
+        let result = htmlData;
+        return result;
+    }
 }
 
 module.exports = CarDb;
