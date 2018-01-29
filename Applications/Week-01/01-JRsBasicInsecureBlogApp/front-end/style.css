@@ -33,6 +33,10 @@
     margin: 10px 0px;
 }
 
+.blog-item a {
+    color: #fff !important;
+}
+
 .blog-item-button-row {
     display: flex;
     justify-content: space-around;
