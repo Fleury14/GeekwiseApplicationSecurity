@@ -26,9 +26,17 @@ function getCars() {
             <span class="text-center">${blogpost.id}</span>
             <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.content}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
             </div>`;
-            newBlogItem.innerHTML = author + body + date + buttonRow;
-            newBlogItem.classList.add('blog-item');
-            blogContainer.appendChild(newBlogItem);
+            let unsafe = author + body + date + buttonRow;
+            $.post(`${_baseUrl}:3000/api/html`, {htmlData: unsafe}, function(newHTML) {
+                // console.log('calling html parse API');
+                // console.log('recieved', newHTML.data);
+                newBlogItem.innerHTML = newHTML.data;
+                newBlogItem.classList.add('blog-item');
+                blogContainer.appendChild(newBlogItem);
+            });
+            // newBlogItem.innerHTML = author + body + date + buttonRow;
+            // newBlogItem.classList.add('blog-item');
+            // blogContainer.appendChild(newBlogItem);
 
         });
     });

@@ -126,6 +126,7 @@ class BlogController {
             const data = await CarDb.htmlParse(req.body.htmlData);
             if (data) {
                 // let posts = data.map(p => { return new BlogPost(p) });
+                // console.log('Returning:', data);
                 return Common.resultOk(res, data);
             } else {
                 return Common.resultOk([]);
