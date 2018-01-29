@@ -1,4 +1,5 @@
 const db = require('./db');
+const xss = require('xss');
 
 const TABLENAME = 'cars';
 
