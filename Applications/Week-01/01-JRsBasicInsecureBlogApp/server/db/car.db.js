@@ -69,12 +69,13 @@ class CarDb {
     static htmlParse(htmlData) {
         console.log('Parsing following HTML for sanitization:', htmlData);
         let result = xss(htmlData, {
-            whiteList: {
-                p: true,
-                h4: true,
-                div: ['class'],
-                a: ['class', 'onclick', 'data-blogid', 'data-blogauthor', 'data-blogcontent']
-            },
+            whiteList: [],
+            // whiteList: {
+            //     p: true,
+            //     h4: true,
+            //     div: ['class'],
+            //     a: ['class', 'onclick', 'data-blogid', 'data-blogauthor', 'data-blogcontent']
+            // },
             stripIgnoreTag: true
         });
         return result;
