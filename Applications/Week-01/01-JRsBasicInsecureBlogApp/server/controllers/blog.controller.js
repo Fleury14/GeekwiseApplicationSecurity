@@ -13,6 +13,8 @@ class BlogController {
         router.route('/car')
             .get(this.getAll)
             .post(this.insertOne);
+        router.route('/html')
+            .post(this.htmlParse);
     }
 
     async getOne(req, res, next) {
@@ -110,6 +112,22 @@ class BlogController {
             if (data) {
                 let posts = data.map(p => { return new BlogPost(p) });
                 return Common.resultOk(res, posts);
+            } else {
+                return Common.resultOk([]);
+            }
+        } catch(e) {
+            console.log('catch', e);
+            return Common.resultErr(res, e.message);
+        }
+    }
+
+    async htmlParse(req, res, next) {
+        try {
+            const data = await CarDb.htmlParse(req.body.htmlData);
+            if (data) {
+                // let posts = data.map(p => { return new BlogPost(p) });
+                // console.log('Returning:', data);
+                return Common.resultOk(res, data);
             } else {
                 return Common.resultOk([]);
             }

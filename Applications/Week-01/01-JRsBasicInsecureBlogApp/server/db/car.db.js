@@ -1,4 +1,5 @@
 const db = require('./db');
+const xss = require('xss');
 
 const TABLENAME = 'cars';
 
@@ -63,6 +64,21 @@ class CarDb {
         let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND author = $1 ORDER BY id ${order}`;
         console.log(query, param);
         return db.any(query, [param]);
+    }
+
+    static htmlParse(htmlData) {
+        console.log('Parsing following HTML for sanitization:', htmlData);
+        let result = xss(htmlData, {
+            whiteList: [],
+            // whiteList: {
+            //     p: true,
+            //     h4: true,
+            //     div: ['class'],
+            //     a: ['class', 'onclick', 'data-blogid', 'data-blogauthor', 'data-blogcontent']
+            // },
+            stripIgnoreTag: true
+        });
+        return result;
     }
 }
 
