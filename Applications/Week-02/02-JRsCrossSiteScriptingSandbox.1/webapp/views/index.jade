@@ -3,3 +3,27 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+
+  div.content-container
+    h2 Content
+    input#contentFun(type="text")
+    button Weee!
+    // div with appended content will go here
+
+  div.attribute-container
+    h2 Attribute
+    input#attrFun(type="text")
+    button Woooo!
+    // anchor or canvas tag with id = "ohboywhatcouuldpossiblygowrong"
+
+  div.css-container
+    h2 CSS
+    input#cssFun(type="text")
+    button Waaa!
+    // inline style with body > bgcolor = "onlycolorshereriiiiiiight?"
+
+  .js-container
+    h2 JS
+    input#jsFun(type="text")
+    button Wuuuu!
+    // running random JS script? Sound legit!
