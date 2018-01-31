@@ -41,8 +41,9 @@
                     <button class="btn btn-success" id="addBlogPostButton">Add new Post</button>
                     <button class="btn btn-info" id="searchPostButton" onclick="toggleSearch()">Search for posts</button>               
                 </div>
+                <!-- Begin Search -->
                 <div class="search-container hide-search" id="searchContainer">
-                    <form class="form-inline" id="search-post">
+                    <form class="form-inline" id="login-post">
                         <label class="sr-only" for="inlineFormInput">Search for:</label>
                         <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="search" placeholder="Things">
                         <button type="submit" onclick="searchCars(event)" class="btn btn-primary">Search</button>
@@ -55,7 +56,21 @@
                             </select>
                         </div>
                     </form>
+                </div> <!-- End search -->
+                <!-- Begin login -->
+                <div class="blog-item-button-row">
+                    <button class="btn btn-danger" onclick="toggleLogin()">Login</button>
                 </div>
+                <div class="login-container hide-search" id="loginContainer">
+                    <form class="form-inline" id="search-post">
+                        <label class="sr-only" for="inlineFormInput">Username</label>
+                        <input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="username" placeholder="Username">
+                        <label class="sr-only" for="inlineFormInput">Password</label>
+                        <input type="Password" class="form-control mb-2 mr-sm-2 mb-sm-0" id="password" placeholder="password">
+                        <button type="submit" onclick="logMeIn(event)" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+
                  
                 <br>
                 <!-- <div class="car-container">
