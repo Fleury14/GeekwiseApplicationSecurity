@@ -224,6 +224,15 @@ function toggleSearch() {
     document.getElementById('searchContainer').classList.toggle('hide-search');
 }
 
+function toggleLogin() {
+    document.getElementById('loginContainer').classList.toggle('hide-search');
+}
+
+function logMeIn(event) {
+    event.preventDefault();
+    console.log("Login will happen here...");
+}
+
 
 // run getCars on 
 $(function() {

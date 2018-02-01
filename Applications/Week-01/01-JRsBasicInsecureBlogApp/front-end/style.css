@@ -58,6 +58,18 @@
     margin-left: 20px;
 }
 
+.login-container {
+    height: 60px;
+    background-color: #fcc;
+    margin: 20px 12.5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    width: 75%;
+    transition: 0.5s all;
+}
+
 .order-select {
     margin-left: 20px;
 }

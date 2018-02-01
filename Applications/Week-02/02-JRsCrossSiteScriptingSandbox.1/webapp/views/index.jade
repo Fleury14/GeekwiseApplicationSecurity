@@ -1,0 +1,53 @@
+extends layout
+
+block content
+
+  //- script.
+  //-   let bgc = '';
+  //-   function clickJade(event) { 
+  //-     console.log(event, document.querySelector('#cssFun').value);
+  //-     bgc = document.querySelector('#cssFun').value;
+  //-     console.log('background color:', bgc);
+  //-     document.querySelector('body').style.backgroundColor = bgc;
+  //-     };
+  //-   function divSubmit() {
+  //-     document.querySelector('#break-me').innerHTML = document.querySelector('#contentFun').value;
+  //-   }
+
+  h1= title
+  p Welcome to #{title}
+
+  form(action="/", method="POST")
+
+    div.content-container
+      h2 Content
+      input#contentFun(type="text", name="content", value='#{content}')
+      div
+        !{content}
+      // button(onclick='divSubmit()') Weee!
+      // div with appended content will go here
+
+    div.attribute-container
+      h2 Attribute
+      input#attrFun(type="text", name="attribute", value='#{attribute}')
+      // anchor or canvas tag with id = "ohboywhatcouuldpossiblygowrong"
+      a(id='!{attribute}') Anchor LOL
+
+    div.css-container
+      h2 CSS
+      input#cssFun(type="text", name="css", value='#{css}')
+      style body {background-color: !{css}}
+      // inline style with body > bgcolor = "onlycolorshereriiiiiiight?"
+
+      // - let bgcolor = '';
+    
+
+
+    .js-container
+      h2 JS
+      input#jsFun(type="text", name="javascript" value='#{javascript}')
+      // running random JS script? Sound legit!
+      script.
+        !{javascript}
+
+    input(type='submit', value="submit")
