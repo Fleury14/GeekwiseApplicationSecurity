@@ -31,7 +31,8 @@ block content
       h2 Attribute
       input#attrFun(type="text", name="attribute", value='#{attribute}')
       // anchor or canvas tag with id = "ohboywhatcouuldpossiblygowrong"
-      a(id='!{attribute}') Anchor LOL
+      br
+      a(id!="#{attribute}") Anchor LOL
 
     div.css-container
       h2 CSS
