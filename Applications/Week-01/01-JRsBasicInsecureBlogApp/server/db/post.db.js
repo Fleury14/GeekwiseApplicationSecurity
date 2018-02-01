@@ -3,7 +3,7 @@ const xss = require('xss');
 
 const TABLENAME = 'cars';
 
-class CarDb {
+class PostDb {
     static getOne(id) {
         id = parseInt(id);
         let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND id = $1`;
@@ -82,4 +82,4 @@ class CarDb {
     }
 }
 
-module.exports = CarDb;
+module.exports = PostDb;

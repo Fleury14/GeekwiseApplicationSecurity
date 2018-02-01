@@ -1,5 +1,5 @@
 const BlogPost = require('../models/blogpost.model');
-const CarDb = require('../db/car.db');
+const PostDb = require('../db/post.db');
 const Common = require('./common');
 
 class BlogController {
@@ -19,7 +19,7 @@ class BlogController {
 
     async getOne(req, res, next) {
         try {
-            const data = await CarDb.getOne(req.params.id);
+            const data = await PostDb.getOne(req.params.id);
             if (data) {
                 let car = new BlogPost(data);
                 return Common.resultOk(res, car);
@@ -38,7 +38,7 @@ class BlogController {
 
     async updateOne(req, res, next) {
         try {
-            const data = await CarDb.updateOne(req.params.id, req.body);
+            const data = await PostDb.updateOne(req.params.id, req.body);
             if (data) {
                 let car = new BlogPost(data);
                 return Common.resultOk(res, car);
@@ -57,7 +57,7 @@ class BlogController {
 
     async insertOne(req, res, next) {
         try {
-            const data = await CarDb.insertOne(req.body);
+            const data = await PostDb.insertOne(req.body);
             if (data) {
                 let car = new BlogPost(data);
                 return Common.resultOk(res, car);
@@ -76,7 +76,7 @@ class BlogController {
 
     async deleteOne(req, res, next) {
         try {
-            const data = await CarDb.deleteOne(req.params.id);
+            const data = await PostDb.deleteOne(req.params.id);
             if (data) {
                 return Common.resultOk(res, data);
             } else {
@@ -94,7 +94,7 @@ class BlogController {
 
     async getAll(req, res, next) {
         try {
-            const data = await CarDb.getAll();
+            const data = await PostDb.getAll();
             if (data) {
                 let cars = data.map(car => { return new BlogPost(car) });
                 return Common.resultOk(res, cars);
@@ -108,7 +108,7 @@ class BlogController {
 
     async search(req, res, next) {
         try {
-            const data = await CarDb.search(req.body.search, req.body.order);
+            const data = await PostDb.search(req.body.search, req.body.order);
             if (data) {
                 let posts = data.map(p => { return new BlogPost(p) });
                 return Common.resultOk(res, posts);
@@ -123,7 +123,7 @@ class BlogController {
 
     async htmlParse(req, res, next) {
         try {
-            const data = await CarDb.htmlParse(req.body.htmlData);
+            const data = await PostDb.htmlParse(req.body.htmlData);
             if (data) {
                 // let posts = data.map(p => { return new BlogPost(p) });
                 // console.log('Returning:', data);
