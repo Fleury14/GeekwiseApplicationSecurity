@@ -87,3 +87,10 @@
     overflow: hidden;
     opacity: 0;
 }
+
+/* Begin register page styles */
+
+.register-form {
+    width: 75%;
+    margin: 0 auto;
+}
