@@ -17,6 +17,12 @@ class UserDb {
         return db.oneOrNone(query, [id]);
     }
 
+    static getOneByUserName(username) {
+        let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false AND username = $1`;
+        console.log(query, username);
+        return db.oneOrNone(query, [username]);
+    }
+
     static getAll() {
         let query = `SELECT * FROM ${TABLENAME} WHERE is_deleted=false ORDER BY id DESC`;
         console.log(query);

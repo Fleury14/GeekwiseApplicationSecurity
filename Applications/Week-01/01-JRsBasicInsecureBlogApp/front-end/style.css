@@ -94,3 +94,8 @@
     width: 75%;
     margin: 0 auto;
 }
+
+#errorText {
+    color: #d00;
+    margin-top: 15px;
+}
