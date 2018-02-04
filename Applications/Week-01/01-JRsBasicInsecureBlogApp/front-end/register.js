@@ -22,6 +22,9 @@ function registerUser(event) {
         if(result.data.notFound === true) {
             // username wasnt found, add user
             console.log('user not found, we good to go');
+            jQuery.post(`${_baseUrl}:${_port}/api/user`, {username: username, password: password}, function() {
+                window.location = 'index.html';
+            });
         } else {
             // display error message if username exists
             document.getElementById('errorText').innerHTML = "<h3>Username already exists!</h3>";    
