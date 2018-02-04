@@ -1,3 +1,11 @@
+#loginInfo {
+    height: 20px;
+}
+
+.red-text {
+    color: #d00;
+}
+
 .car-container {
     width: 50%;
     border: 1px solid black;

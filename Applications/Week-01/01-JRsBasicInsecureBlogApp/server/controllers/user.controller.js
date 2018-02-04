@@ -28,7 +28,8 @@ class UserController {
                 let user = new User(data);
                 return Common.resultOk(res, user);
             } else {
-                return Common.resultNotFound(res);
+                let user = null;
+                return Common.resultOk(res, user);
             }
         } catch (e) {
             // handle error

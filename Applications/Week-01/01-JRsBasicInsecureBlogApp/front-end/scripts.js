@@ -231,6 +231,19 @@ function toggleLogin() {
 function logMeIn(event) {
     event.preventDefault();
     console.log("Login will happen here...");
+    let username = $("#username").val();
+    let password = $("#password").val();
+    jQuery.post(`${_baseUrl}:${_port}/api/user/login`, {username: username, password: password}, function(result) {
+        console.log(result);
+        if (result.data === null) {
+            document.getElementById('loginInfo').innerHTML=`<h4 class="red-text">Bad login info, try again</h4>`;
+        } else {
+            document.getElementById('loginInfo').innerHTML=`<h4>Logged in as ${username}</h4>`;
+            $('#username').val("");
+            $('#password').val("");
+            toggleLogin();
+        }
+    })
 }
 
 
