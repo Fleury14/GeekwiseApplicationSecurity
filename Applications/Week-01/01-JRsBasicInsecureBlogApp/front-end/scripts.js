@@ -1,6 +1,7 @@
 // server address
 let _baseUrl = "http://localhost";
 let _port = "3000";
+let _loggedInUser = '';
 
 function getCars() {
     let blogContainer = document.getElementById('blog-list');
@@ -17,49 +18,43 @@ function getCars() {
             // newElement.innerHTML = `${car.id} Make: ${car.make} Model: ${car.model} ${edit} | ${del}`;
             // list.appendChild(newElement);
 
-            let cleanAuthor = '';
-            let cleanContent = '';
-            $.post(`${_baseUrl}:3000/api/html`, {htmlData: blogpost.author}, function(newAuthor){
-                cleanAuthor = newAuthor.data;
-            }).done(function() {
-                $.post(`${_baseUrl}:3000/api/html`, {htmlData: blogpost.content}, function(newContent){
-                    cleanContent = newContent.data;
-                    let postDate = formatDate(new Date(blogpost.created_at));
-                    let newBlogItem = document.createElement('div');
-                    let author = `<h4>Posted by ${cleanAuthor}</h4>`;
-                    let body = `<p>${cleanContent}</p>`;
-                    let date = `<p>${postDate}</p>`;
-                    let buttonRow = `<div class="blog-item-button-row">
-                    <a href="#" data-blogid="${blogpost.id}" onclick="delCar(event)" class="btn btn-danger">Delete Post</a>
-                    <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.content}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
-                    </div>`;
-                    newBlogItem.innerHTML = author + body + date + buttonRow;
-                    newBlogItem.classList.add('blog-item');
-                    blogContainer.appendChild(newBlogItem);
-                })
-            })
+            // let cleanAuthor = '';
+            // let cleanContent = '';
+            // $.post(`${_baseUrl}:3000/api/html`, {htmlData: blogpost.author}, function(newAuthor){
+            //     cleanAuthor = newAuthor.data;
+            // }).done(function() {
+            //     $.post(`${_baseUrl}:3000/api/html`, {htmlData: blogpost.content}, function(newContent){
+            //         cleanContent = newContent.data;
+            //         let postDate = formatDate(new Date(blogpost.created_at));
+            //         let newBlogItem = document.createElement('div');
+            //         let author = `<h4>Posted by ${cleanAuthor}</h4>`;
+            //         let body = `<p>${cleanContent}</p>`;
+            //         let date = `<p>${postDate} - ${blogpost.id}</p>`;
+            //         let buttonRow = `<div class="blog-item-button-row">
+            //         <a href="#" data-blogid="${blogpost.id}" onclick="delCar(event)" class="btn btn-danger">Delete Post</a>
+            //         <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.content}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
+            //         </div>`;
+            //         newBlogItem.innerHTML = author + body + date + buttonRow;
+            //         newBlogItem.classList.add('blog-item');
+            //         blogContainer.appendChild(newBlogItem);
+            //     })
+            // })
 
-            // let postDate = formatDate(new Date(blogpost.created_at));
-            // let newBlogItem = document.createElement('div');
-            // let author = `<h4>Posted by ${blogpost.author}</h4>`;
-            // let body = `<p>${blogpost.content}</p>`;
-            // let date = `<p>${postDate}</p>`;
-            // let buttonRow = `<div class="blog-item-button-row">
-            // <a href="#" data-blogid="${blogpost.id}" onclick="delCar(event)" class="btn btn-danger">Delete Post</a>
-            // <span class="text-center">${blogpost.id}</span>
-            // <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.content}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
-            // </div>`;
-            // let unsafe = author + body + date + buttonRow;
-            // $.post(`${_baseUrl}:3000/api/html`, {htmlData: unsafe}, function(newHTML) {
-            //     // console.log('calling html parse API');
-            //     // console.log('recieved', newHTML.data);
-            //     newBlogItem.innerHTML = newHTML.data;
-            //     newBlogItem.classList.add('blog-item');
-            //     blogContainer.appendChild(newBlogItem);
-            // });
-            // newBlogItem.innerHTML = author + body + date + buttonRow;
-            // newBlogItem.classList.add('blog-item');
-            // blogContainer.appendChild(newBlogItem);
+            let postDate = formatDate(new Date(blogpost.created_at));
+            let newBlogItem = document.createElement('div');
+            let author = `<h4>Posted by ${blogpost.author}</h4>`;
+            let body = `<p>${blogpost.content}</p>`;
+            let date = `<p>${postDate} - ${blogpost.id}</p>`;
+            let buttonRow = `<div class="blog-item-button-row">
+            <a href="#" data-blogid="${blogpost.id}" onclick="delCar(event)" class="btn btn-danger">Delete Post</a>
+            <span class="text-center">${blogpost.id}</span>
+            <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.content}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
+            </div>`;
+            let unsafe = author + body + date + buttonRow;
+            
+            newBlogItem.innerHTML = author + body + date + buttonRow;
+            newBlogItem.classList.add('blog-item');
+            blogContainer.appendChild(newBlogItem);
 
         });
     });
@@ -145,7 +140,7 @@ function searchCars(e) {
                     let newBlogItem = document.createElement('div');
                     let author = `<h4>Posted by ${cleanAuthor}</h4>`;
                     let body = `<p>${cleanContent}</p>`;
-                    let date = `<p>${postDate}</p>`;
+                    let date = `<p>${postDate} - ${blogpost.id}</p>`;
                     let buttonRow = `<div class="blog-item-button-row">
                     <a href="#" data-blogid="${blogpost.id}" onclick="delCar(event)" class="btn btn-danger">Delete Post</a>
                     <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.content}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
@@ -239,6 +234,7 @@ function logMeIn(event) {
             document.getElementById('loginInfo').innerHTML=`<h4 class="red-text">Bad login info, try again</h4>`;
         } else {
             document.getElementById('loginInfo').innerHTML=`<h4>Logged in as ${username}</h4>`;
+            _loggedInUser = username;
             $('#username').val("");
             $('#password').val("");
             toggleLogin();

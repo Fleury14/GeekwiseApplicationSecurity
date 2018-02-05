@@ -23,9 +23,17 @@ class PostDb {
         // Object.keys(data).forEach((key) => {
         //     params.push(`${key} = '${data[key]}'`);
         // });
+        let authorScrubbed = xss(data['author'], {
+            whiteList: [],
+            stripIgnoreTag: true
+        });
+        let contentScrubbed = xss(data['content'], {
+            whiteList: [],
+            stripIgnoreTag: true
+        });
         let query = `UPDATE ${TABLENAME} SET author = $1, content = $2 WHERE is_deleted=false AND id = $3 RETURNING *`;
-        console.log(query, data['author'], data['content'], id);
-        return db.one(query, [data['author'], data['content'], id]);
+        console.log(query, authorScrubbed, contentScrubbed, id);
+        return db.one(query, [authorScrubbed, contentScrubbed, id]);
     }
 
     static deleteOne(id) {
@@ -43,9 +51,17 @@ class PostDb {
         //     params.push(key);
         //     values.push(`'${data[key]}'`);
         // });
+        let authorScrubbed = xss(data['author'], {
+            whiteList: [],
+            stripIgnoreTag: true
+        });
+        let contentScrubbed = xss(data['content'], {
+            whiteList: [],
+            stripIgnoreTag: true
+        });
         let query = `INSERT into ${TABLENAME} (author, content) VALUES($1, $2) RETURNING *`;
-        console.log(query, [data['author'], data['content']]);
-        return db.one(query, [data['author'], data['content']]);
+        console.log(query, authorScrubbed, contentScrubbed);
+        return db.one(query, [authorScrubbed, contentScrubbed]);
     }
 
     static getTotal() {
