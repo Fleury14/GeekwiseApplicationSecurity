@@ -1,27 +1,51 @@
-const BlogPost = require('../models/blogpost.model');
-const PostDb = require('../db/post.db');
+const User = require('../models/user.model');
+const UserDb = require('../db/user.db');
 const Common = require('./common');
 
-class BlogController {
+class UserController {
     constructor(router) {
-        router.route('/car/search')
+        router.route('/user/search')
             .post(this.search);
-        router.route('/car/:id')
+        router.route('/user/:id')
             .get(this.getOne)
             .put(this.updateOne)
             .delete(this.deleteOne);
-        router.route('/car')
+        router.route('/user')
             .get(this.getAll)
             .post(this.insertOne);
-        router.route('/html')
-            .post(this.htmlParse);
+        router.route('/user/login')
+            .post(this.login);
+        router.route('/user/usernamecheck/:username')
+            .get(this.getOneByUserName);
+    }
+
+    async login(req, res, next) {
+        try {
+            let username = req.body.username;
+            let password = req.body.password;
+            const data = await UserDb.getLoginInfo(username, password);
+            if (data) {
+                let user = new User(data);
+                return Common.resultOk(res, user);
+            } else {
+                let user = null;
+                return Common.resultOk(res, user);
+            }
+        } catch (e) {
+            // handle error
+            if (e.code == 0) {
+                return Common.resultNotFound(res);
+            } else {
+                return Common.resultErr(res, e);
+            }
+        }
     }
 
     async getOne(req, res, next) {
         try {
-            const data = await PostDb.getOne(req.params.id);
+            const data = await UserDb.getOne(req.params.id);
             if (data) {
-                let car = new BlogPost(data);
+                let car = new User(data);
                 return Common.resultOk(res, car);
             } else {
                 return Common.resultNotFound(res);
@@ -36,11 +60,31 @@ class BlogController {
         }
     }
 
+    async getOneByUserName(req, res, next) {
+        try {
+            const data = await UserDb.getOneByUserName(req.params.username);
+            if (data) {
+                let found = {notFound: false};
+                return Common.resultOk(res, found);
+            } else {
+                let notFound = {notFound: true};
+                return Common.resultOk(res, notFound);
+            }
+        } catch (e) {
+            // handle error
+            if (e.code == 0) {
+                return Common.resultNotFound(res);
+            } else {
+                return Common.resultErr(res, e);
+            }
+        }
+    }
+
     async updateOne(req, res, next) {
         try {
-            const data = await PostDb.updateOne(req.params.id, req.body);
+            const data = await UserDb.updateOne(req.params.id, req.body);
             if (data) {
-                let car = new BlogPost(data);
+                let car = new User(data);
                 return Common.resultOk(res, car);
             } else {
                 return Common.resultNotFound(res);
@@ -57,9 +101,9 @@ class BlogController {
 
     async insertOne(req, res, next) {
         try {
-            const data = await PostDb.insertOne(req.body);
+            const data = await UserDb.insertOne(req.body);
             if (data) {
-                let car = new BlogPost(data);
+                let car = new User(data);
                 return Common.resultOk(res, car);
             } else {
                 return Common.resultNotFound(res);
@@ -76,7 +120,7 @@ class BlogController {
 
     async deleteOne(req, res, next) {
         try {
-            const data = await PostDb.deleteOne(req.params.id);
+            const data = await UserDb.deleteOne(req.params.id);
             if (data) {
                 return Common.resultOk(res, data);
             } else {
@@ -94,9 +138,9 @@ class BlogController {
 
     async getAll(req, res, next) {
         try {
-            const data = await PostDb.getAll();
+            const data = await UserDb.getAll();
             if (data) {
-                let cars = data.map(car => { return new BlogPost(car) });
+                let cars = data.map(car => { return new User(car) });
                 return Common.resultOk(res, cars);
             } else {
                 return Common.resultNotFound(res);
@@ -108,9 +152,9 @@ class BlogController {
 
     async search(req, res, next) {
         try {
-            const data = await PostDb.search(req.body.search, req.body.order);
+            const data = await UserDb.search(req.body.search, req.body.order);
             if (data) {
-                let posts = data.map(p => { return new BlogPost(p) });
+                let posts = data.map(p => { return new User(p) });
                 return Common.resultOk(res, posts);
             } else {
                 return Common.resultOk([]);
@@ -123,9 +167,9 @@ class BlogController {
 
     async htmlParse(req, res, next) {
         try {
-            const data = await PostDb.htmlParse(req.body.htmlData);
+            const data = await UserDb.htmlParse(req.body.htmlData);
             if (data) {
-                // let posts = data.map(p => { return new BlogPost(p) });
+                // let posts = data.map(p => { return new User(p) });
                 // console.log('Returning:', data);
                 return Common.resultOk(res, data);
             } else {
@@ -138,4 +182,4 @@ class BlogController {
     }
 }
 
-module.exports = BlogController;
+module.exports = UserController;

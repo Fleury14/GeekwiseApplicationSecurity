@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <form class="register-form">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Username</label>
+          <input type="text" class="form-control" id="inputUsername" aria-describedby="userName" placeholder="Username">
+          <small id="emailHelp" class="form-text text-muted">We'll share your password with everyone else.</small>
+        </div>
+        <div class="form-group">
+          <label for="inputPassword1">Password</label>
+          <input type="password" class="form-control" id="inputPassword1" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="inputPassword2">Re-input password to verify</label>
+            <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+        </div>
+        <button type="submit" onclick="registerUser(event)" class="btn btn-primary">Submit</button>
+        <div id="errorText"></div>
+      </form>
+      <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+      <script src="./register.js"></script> 
+</body>
+</html>
