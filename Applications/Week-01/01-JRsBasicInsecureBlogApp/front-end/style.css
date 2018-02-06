@@ -1,5 +1,5 @@
 #loginInfo {
-    height: 20px;
+    margin-bottom: 20px;
 }
 
 .red-text {
@@ -97,6 +97,10 @@
 }
 
 /* Begin register page styles */
+
+.go-back-home-button {
+    margin: 10px 0px;
+}
 
 .register-form {
     width: 75%;

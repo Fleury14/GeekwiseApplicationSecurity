@@ -224,17 +224,24 @@ function toggleLogin() {
 }
 
 function logMeIn(event) {
+    // prevent default submit
     event.preventDefault();
-    console.log("Login will happen here...");
+    // assign field values to variables
     let username = $("#username").val();
     let password = $("#password").val();
+    // make the post request
     jQuery.post(`${_baseUrl}:${_port}/api/user/login`, {username: username, password: password}, function(result) {
-        console.log(result);
+        // console.log(result);
+        // according to the controller, if the record isnt found the resulting data is returned null instead of a 404
         if (result.data === null) {
+            // thus display error if resulting data is null
             document.getElementById('loginInfo').innerHTML=`<h4 class="red-text">Bad login info, try again</h4>`;
         } else {
+            // otherwise, login is successful. assign username to loggin in user var
+            // if we want to do something else with the rest of the data, this is where we do it. otherwise, everything else stays inside this scope
             document.getElementById('loginInfo').innerHTML=`<h4>Logged in as ${username}</h4>`;
             _loggedInUser = username;
+            // clear input values and hide login box
             $('#username').val("");
             $('#password').val("");
             toggleLogin();
