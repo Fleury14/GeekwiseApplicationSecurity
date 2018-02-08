@@ -1,5 +1,6 @@
 const db = require('./db');
 const xss = require('xss');
+// const bcrypt = require('bcrypt');
 
 const TABLENAME = 'users';
 
