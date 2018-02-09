@@ -103,10 +103,10 @@ let MyBlogApp = {};
         console.log('Checking cookie for username...');
         let username = MyBlogApp.getCookie('username');
         if (username) {
-            document.getElementById('logoutButton').innerHTML = `<button class="btn btn-info">Logout</button>`
+            document.getElementById('logoutButton').innerHTML = `<button class="btn btn-info" onclick="MyBlogApp.logout()">Logout</button>`
             document.getElementById('loginWelcome').textContent = 'Welcome ' + username;
         } else {
-            document.getElementById('logoutButton').innerHTML = `<button class="btn btn-info">Logout</button>`
+            document.getElementById('logoutButton').innerHTML = ``;
             document.getElementById('loginWelcome').textContent = '';
         }
     }
@@ -125,6 +125,12 @@ let MyBlogApp = {};
             }
         }
         return "";
+    }
+
+    // function for logging out, this is in commons because the nav bar is persistent
+    MyBlogApp.logout = function() {
+        document.cookie=('username=');
+        MyBlogApp.loginCheck();
     }
 }());
 

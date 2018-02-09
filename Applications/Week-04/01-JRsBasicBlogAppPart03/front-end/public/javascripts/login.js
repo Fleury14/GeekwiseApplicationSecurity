@@ -9,7 +9,9 @@ MyBlogApp.loginHandler = function(e) {
         console.log(status, data);
         MyBlogApp.spinStop();
         if (status === 200) {
-            document.cookie = `username=${data.data.username}`;
+            const expireDate = new Date(Date.now() + 86400000);
+            console.log(`Setting cookie for expiration ${expireDate}`)
+            document.cookie = `username=${data.data.username}; expires=${expireDate}`;
             document.location.href = '/users/welcome?name=' + data.data.username;
         } else if (status === 404) {
             MyBlogApp.toast('danger', data.message);
@@ -20,5 +22,6 @@ MyBlogApp.loginHandler = function(e) {
 
 // setup the event handler
 window.onload = function() {
+    MyBlogApp.loginCheck();
     document.querySelector("form#login-form").addEventListener('submit', MyBlogApp.loginHandler);
 }
