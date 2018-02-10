@@ -7,7 +7,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/login', function(req, res, next) {
-    res.render('login', {});
+    if(req.cookies['realusername']) {
+        res.redirect(`/users/welcome?name=${req.cookies.realusername}`);
+    } else {
+        res.render('login', {});
+    }
 });
 
 router.post('/login', function(req, res, next) {

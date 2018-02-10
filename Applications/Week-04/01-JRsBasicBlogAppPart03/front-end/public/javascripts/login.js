@@ -9,9 +9,7 @@ MyBlogApp.loginHandler = function(e) {
         console.log(status, data);
         MyBlogApp.spinStop();
         if (status === 200) {
-            const expireDate = new Date(Date.now() + 86400000);
-            console.log(`Setting cookie for expiration ${expireDate}`)
-            document.cookie = `username=${data.data.username}; expires=${expireDate}`;
+            MyBlogApp.login(data.data.username);
             document.location.href = '/users/welcome?name=' + data.data.username;
         } else if (status === 404) {
             MyBlogApp.toast('danger', data.message);

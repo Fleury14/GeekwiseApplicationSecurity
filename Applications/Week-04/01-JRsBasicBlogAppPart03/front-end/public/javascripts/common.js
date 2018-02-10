@@ -101,7 +101,7 @@ let MyBlogApp = {};
     // function to see if there is a username in the cookie and adjust the DOM as needed
     MyBlogApp.loginCheck = function() {
         console.log('Checking cookie for username...');
-        let username = MyBlogApp.getCookie('username');
+        let username = MyBlogApp.getCookie('realusername');
         if (username) {
             document.getElementById('logoutButton').innerHTML = `<button class="btn btn-info" onclick="MyBlogApp.logout()">Logout</button>`
             document.getElementById('loginWelcome').textContent = 'Welcome ' + username;
@@ -109,6 +109,19 @@ let MyBlogApp = {};
             document.getElementById('logoutButton').innerHTML = ``;
             document.getElementById('loginWelcome').textContent = '';
         }
+    }
+
+    // w3schools function to set cookie, maybe im doing it wrong lol
+    MyBlogApp.setCookie = function (cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires="+d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    // function to delet a cookie
+    MyBlogApp.clearCookie = function (cname) {
+        document.cookie = `${cname}=; expires=${new Date(Date.now())}; path=/`;
     }
 
     // W3schools function to get a piece of the cookie (yum)
@@ -127,9 +140,17 @@ let MyBlogApp = {};
         return "";
     }
 
+    // common function for logging test, testing out persistence
+    MyBlogApp.login = function(username) {
+        MyBlogApp.setCookie('realusername', username, 1);
+        // const expireDate = new Date(Date.now() + 86400000);
+        // console.log(`Setting cookie for expiration ${expireDate}`)
+        // document.cookie = `username=${username}; expires=${expireDate}`;
+    }
+
     // function for logging out, this is in commons because the nav bar is persistent
     MyBlogApp.logout = function() {
-        document.cookie=('username=');
+        MyBlogApp.clearCookie('realusername');
         MyBlogApp.loginCheck();
     }
 }());

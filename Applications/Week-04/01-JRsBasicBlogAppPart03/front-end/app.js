@@ -22,6 +22,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+let redirectUser = false;
+
+app.use(function(req, res, next) {
+  //console.log('Cookies:', req.cookies);
+  next();
+});
+
+
 app.use('/', index);
 app.use('/users', users);
 
@@ -32,14 +40,6 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// cookie parser display
-app.get('/', function (req, res) {
-  // Cookies that have not been signed
-  console.log('Cookies: ', req.cookies)
-
-  // Cookies that have been signed
-  console.log('Signed Cookies: ', req.signedCookies)
-});
 
 // error handler
 app.use(function(err, req, res, next) {
