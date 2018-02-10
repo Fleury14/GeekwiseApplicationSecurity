@@ -152,6 +152,7 @@ let MyBlogApp = {};
     MyBlogApp.logout = function() {
         MyBlogApp.clearCookie('realusername');
         MyBlogApp.loginCheck();
+        window.location.href="/";
     }
 }());
 

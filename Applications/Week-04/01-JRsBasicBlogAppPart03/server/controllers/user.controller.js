@@ -39,7 +39,8 @@ class UserController {
                 }
             } else {
                 // in debug mode we could say user doesn't exist here
-                return Common.resultNotFound(res, LOGIN_FAIL);
+                console.log('NO RECORDS FOUND OF INPUTTED USERNAME');
+                setTimeout( function() { return Common.resultNotFound(res, LOGIN_FAIL); }, 2500);
             }
         } catch (e) {
             // handle error
