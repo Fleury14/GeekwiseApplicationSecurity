@@ -2,7 +2,6 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const app = express();
-const cookieParser = require('cookie-parser');
 require('dotenv').config();
 
 const controllers = require('./controllers/controllers');
@@ -36,17 +35,6 @@ app.use(function(req, res, next) {
     next();
 });
 
-// parse cookies middleware, yes ideally this would go into an app-js on teh front end but i dont have that atm
-app.use(cookieParser());
-
-// display cookies here?
-app.get('/', function (req, res) {
-    // Cookies that have not been signed
-    console.log('Cookies: ', req.cookies);
-  
-    // Cookies that have been signed
-    console.log('Signed Cookies: ', req.signedCookies);
-  });
 
 //////////////////
 // API Queries

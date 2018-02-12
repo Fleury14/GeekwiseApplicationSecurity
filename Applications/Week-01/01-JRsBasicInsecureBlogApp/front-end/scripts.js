@@ -241,6 +241,7 @@ function logMeIn(event) {
             // if we want to do something else with the rest of the data, this is where we do it. otherwise, everything else stays inside this scope
             document.getElementById('loginInfo').innerHTML=`<h4>Logged in as ${username}</h4>`;
             _loggedInUser = username;
+            document.cookie = `username=${username}`;
             // clear input values and hide login box
             $('#username').val("");
             $('#password').val("");
@@ -249,6 +250,22 @@ function logMeIn(event) {
     })
 }
 
+// w3 schools get cookie
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
 
 // run getCars on 
 $(function() {
@@ -258,4 +275,8 @@ $(function() {
     $("#add-car").on('submit', addCar);
     document.getElementById('addBlogPostButton').addEventListener('click', toggleForm);
     // document.getElementById('hideAddForm').addEventListener('click', toggleForm);
+    let cookieUser = getCookie('username');
+    if (cookieUser) {
+        document.getElementById('loginInfo').innerHTML=`<h4>Logged in as ${cookieUser}</h4>`;
+    }
 });

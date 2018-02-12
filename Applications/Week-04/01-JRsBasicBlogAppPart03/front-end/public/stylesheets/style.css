@@ -1,0 +1,101 @@
+body {
+    background-color: #220c57;
+    color: #fff;
+}
+
+a {
+    color: #00B7FF;
+}
+
+.border {
+    border: 4px solid;
+}
+
+.border-primary {
+    border-color: #0275d8 !important;
+}
+
+.full-height {
+    height: 100%;
+}
+
+#login-container {
+    margin-top: 30px;
+}
+
+#loginRow {
+    display: flex;
+    justify-content: flex-start;
+    color: #fff;
+    align-items: center;
+}
+
+#loginWelcome {
+    margin-left: 20px;
+}
+
+div#loading-screen {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
+}
+
+#login-form {
+    color: #000;
+}
+
+/* add new form imported from old css */
+.submit-button-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.add-new-blog-form {
+    position: fixed;
+    left: 10%;
+    width: 80%;
+    padding: 20px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    background-color: yellow;
+    transition: 0.5s all;
+}
+
+.hide-form {
+    left: -80%;
+}
+
+/* end new form */
+
+/* begin blog item styles */
+.blog-item {
+    padding: 10px;
+    background-color: #eef;
+    border: 2px solid #bbf;
+    border-radius: 10px;
+    margin: 10px 0px;
+    color: #333;
+}
+
+.blog-item a {
+    color: #fff !important;
+}
+
+.blog-item-button-row {
+    display: flex;
+    justify-content: space-around;
+}
+
+.blog-item-title {
+    background-color: #220c57;
+    color: #eee;
+    padding: 10px;
+    border-radius: 5px;
+}
+/* end blog item */
