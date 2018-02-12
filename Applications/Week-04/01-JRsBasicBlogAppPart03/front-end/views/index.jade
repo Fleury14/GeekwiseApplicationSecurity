@@ -2,4 +2,8 @@ extends layout
 
 block content
   h1 Blog Page
-  a(href="users/login") Login Page
+  a(href="users/login") 
+    button(class="btn btn-default login-direct") Login Page
+
+block append scripts
+  script(src='/javascripts/index-login.js')
