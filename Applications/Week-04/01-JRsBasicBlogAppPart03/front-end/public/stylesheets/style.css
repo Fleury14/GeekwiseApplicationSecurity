@@ -70,3 +70,32 @@ div#loading-screen {
 .hide-form {
     left: -80%;
 }
+
+/* end new form */
+
+/* begin blog item styles */
+.blog-item {
+    padding: 10px;
+    background-color: #eef;
+    border: 2px solid #bbf;
+    border-radius: 10px;
+    margin: 10px 0px;
+    color: #333;
+}
+
+.blog-item a {
+    color: #fff !important;
+}
+
+.blog-item-button-row {
+    display: flex;
+    justify-content: space-around;
+}
+
+.blog-item-title {
+    background-color: #220c57;
+    color: #eee;
+    padding: 10px;
+    border-radius: 5px;
+}
+/* end blog item */
