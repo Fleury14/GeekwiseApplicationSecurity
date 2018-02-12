@@ -25,13 +25,12 @@ MyBlogApp.getPosts = function() {
             let newBlogItem = document.createElement('div');
             let author = `<h5>Posted by ${blogpost.author}</h5>`;
             let title = `<h3 class="blog-item-title">${blogpost.title}</h3>`
-            console.log('title:', blogpost.title);
             let body = `<p>${blogpost.post}</p>`;
             let date = `<p>${postDate} - ${blogpost.id}</p>`;
             let buttonRow = `<div class="blog-item-button-row">
-            <a href="#" data-blogid="${blogpost.id}" onclick="delCar(event)" class="btn btn-danger">Delete Post</a>
+            <a href="#" data-blogid="${blogpost.id}" onclick="MyBlogApp.delPost(event)" class="btn btn-danger">Delete Post</a>
             <span class="text-center">${blogpost.id}</span>
-            <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.post}" onclick="editCar(event)" class="btn btn-success">Edit Post</a>
+            <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.post}" data-blogtitle="${blogpost.title}" onclick="MyBlogApp.editPost(event)" class="btn btn-success">Edit Post</a>
             </div>`;
             
             newBlogItem.innerHTML = title + body + author + date + buttonRow;
@@ -58,7 +57,6 @@ MyBlogApp.addPost = function(e) {
     }
 
     if (+blogid.val() === 0) {
-        console.log('Executinng post, not put:', titleVal, author, contentVal);
         jQuery.post(`${_baseUrl}:${_port}/api/post`, { title: titleVal, author: author, post: contentVal }, function(data) {
             MyBlogApp.getPosts();
         });
@@ -78,6 +76,42 @@ MyBlogApp.addPost = function(e) {
     title.val("");
     content.val("");
     MyBlogApp.toggleForm();
+}
+
+MyBlogApp.editPost = function(e) {
+    e.preventDefault();
+    let el = $(e.srcElement);
+    let title = $("#title");
+    let content = $("#content");
+    let id = $("#blogid");
+    
+
+    let authorVal = el.data("blogauthor");
+    let contentVal = el.data("blogcontent");
+    let idVal = el.data("blogid");
+    let titleVal = el.data("blogtitle");
+
+    $("#blog-submit").val(`Edit Blog #${idVal}`);
+    title.val(titleVal);
+    content.val(contentVal);
+    id.val(idVal);
+    MyBlogApp.toggleForm();
+}
+
+MyBlogApp.delPost = function(e) {
+    e.preventDefault();
+    
+    let el = $(e.srcElement);
+    let blogid = el.data("blogid");
+    if(confirm(`Are you sure you want to delete post #${blogid}`)) {
+        $.ajax({
+                method: "DELETE",
+                url: `${_baseUrl}:${_port}/api/post/${blogid}`
+            })
+            .done(function(msg) {
+                MyBlogApp.getPosts();
+            });
+    }
 }
 
 
