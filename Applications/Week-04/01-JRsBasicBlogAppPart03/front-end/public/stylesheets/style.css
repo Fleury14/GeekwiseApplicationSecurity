@@ -48,3 +48,25 @@ div#loading-screen {
 #login-form {
     color: #000;
 }
+
+/* add new form imported from old css */
+.submit-button-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.add-new-blog-form {
+    position: fixed;
+    left: 10%;
+    width: 80%;
+    padding: 20px;
+    border: 2px solid #000;
+    border-radius: 10px;
+    background-color: yellow;
+    transition: 0.5s all;
+}
+
+.hide-form {
+    left: -80%;
+}

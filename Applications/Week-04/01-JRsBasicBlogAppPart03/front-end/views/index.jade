@@ -5,5 +5,21 @@ block content
   a(href="users/login") 
     button(class="btn btn-default login-direct") Login Page
 
+  br
+  button(class="btn btn-info new-post-button" onclick="MyBlogApp.toggleForm()") Add new post
+
+  div(class="add-new-blog-form hide-form" id="addBlogForm")
+    form#add-car
+      input(type="hidden" id="blogid")
+      label(class="sr-only" for="author") Author
+      input(type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="author" placeholder="My Name")
+      label(class="sr-only" for="content") Content
+      br
+      div(class="input-group mb-2 mr-sm-2 mb-sm-0")
+        textarea(class="form-control" id="content" placeholder="Thoughts" rows="5")
+      div.submit-button-container
+        div(div class="btn btn-danger" id="hideAddForm" onclick="MyBlogApp.toggleForm()") Hide Form
+        input(type="submit" id="blog-submit" class="btn btn-primary" value="Add Post")
+
 block append scripts
   script(src='/javascripts/index-login.js')
