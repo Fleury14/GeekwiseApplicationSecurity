@@ -114,6 +114,35 @@ MyBlogApp.delPost = function(e) {
     }
 }
 
+MyBlogApp.searchPosts = function(e) {
+    console.log('Searching...');
+    e.preventDefault();
+    // let order = $('#orderType').val();
+    let list = document.getElementById("post-list");
+    list.innerHTML = "";
+    let searchVal = $('#searchField').val();
+    $('#search').val("");
+
+    jQuery.post(`${_baseUrl}:${_port}/api/post/search`, { search: searchVal}, function(data) {
+        data.data.forEach((blogpost) => {
+            let postDate = formatDate(new Date(blogpost.created_at));
+            let newBlogItem = document.createElement('div');
+            let author = `<h5>Posted by ${blogpost.author}</h5>`;
+            let title = `<h3 class="blog-item-title">${blogpost.title}</h3>`
+            let body = `<p>${blogpost.post}</p>`;
+            let date = `<p>${postDate} - ${blogpost.id}</p>`;
+            let buttonRow = `<div class="blog-item-button-row">
+            <a href="#" data-blogid="${blogpost.id}" onclick="MyBlogApp.delPost(event)" class="btn btn-danger">Delete Post</a>
+            <span class="text-center">${blogpost.id}</span>
+            <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.post}" data-blogtitle="${blogpost.title}" onclick="MyBlogApp.editPost(event)" class="btn btn-success">Edit Post</a>
+            </div>`;
+            
+            newBlogItem.innerHTML = title + body + author + date + buttonRow;
+            newBlogItem.classList.add('blog-item');
+            list.appendChild(newBlogItem);
+        });
+    });
+}
 
 function formatDate(date) {
     var monthNames = [
@@ -136,6 +165,7 @@ $(function() {
     // server is running from same IP as front-end so get the hostname
     _baseUrl = `http://${window.location.hostname}`;
     $("#add-post").on('submit', MyBlogApp.addPost);
+    $("#searchForm").on('submit', MyBlogApp.searchPosts);
     loginButtonCheck();
     MyBlogApp.getPosts();
 });
