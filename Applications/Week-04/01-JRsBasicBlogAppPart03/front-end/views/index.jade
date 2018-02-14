@@ -15,6 +15,7 @@ block content
       input(type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" id="title" placeholder="Post Title")
       label(class="sr-only" for="content") Content
       br
+      input(type="hidden" name="_csrf" value="#{csrfToken}")
       div(class="input-group mb-2 mr-sm-2 mb-sm-0")
         textarea(class="form-control" id="content" placeholder="Thoughts" rows="5")
       div.submit-button-container
