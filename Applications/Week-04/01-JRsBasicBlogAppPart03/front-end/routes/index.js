@@ -1,8 +1,12 @@
 var express = require('express');
 var router = express.Router();
+var csurf = require('csurf');
+
+var csrfProt = csurf({cookie: true});
+
 
 /* GET home page. */
-router.get('/', async function(req, res, next) {
+router.get('/', csrfProt, async function(req, res, next) {
     // Cookies that have not been signed
     console.log('Cookies: ', req.cookies)
 
@@ -17,7 +21,7 @@ router.get('/', async function(req, res, next) {
     //     res.render('index', {});
     // }
     
-    res.render('index', {});
+    res.render('index', { csrfToken: req.csrfToken() });
 });
 
 router.post('/', async function(req, res, next) {
