@@ -1,6 +1,9 @@
 const Post = require('../models/post.model');
 const PostDb = require('../db/post.db');
 const Common = require('./common');
+const jwt = require('jsonwebtoken');
+
+const _JWTSECRET = 'symmain';
 
 class PostController {
     constructor(router) {
@@ -26,6 +29,7 @@ class PostController {
             }
         } catch (e) {
             // handle error
+            console.log('ERRORLOL', e);
             if (e.code == 0) {
                 return Common.resultNotFound(res);
             } else {
@@ -106,6 +110,8 @@ class PostController {
 
     async search(req, res, next) {
         try {
+            console.log('JWT??!?!?!', req.body.jwt);
+            let decoded = jwt.verify(req.body.jwt, _JWTSECRET);
             const data = await PostDb.search(req.body.search);
             if (data) {
                 let posts = data.map(p => { return new Post(p) });
@@ -114,8 +120,12 @@ class PostController {
                 return Common.resultOk([]);
             }
         } catch (e) {
-            console.log('catch', e)
-            return Common.resultErr(res, e.message);
+            console.log('Invalid Token');
+            if (e.name == 'JsonWebTokenError') {
+                // e.message = 'Invalid Token';
+                // e.code = 401;
+                return Common.resultForbidden(res);
+            }
         }
     }
 }

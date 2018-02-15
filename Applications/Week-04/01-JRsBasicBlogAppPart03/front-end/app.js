@@ -30,6 +30,13 @@ app.use(function(req, res, next) {
   next();
 });
 
+// HEADERS
+app.use(function(req, res, next) {
+  console.log('HEADERZZZ:', JSON.stringify(req.headers));
+  next();
+})
+
+
 
 app.use('/', index);
 app.use('/users', users);

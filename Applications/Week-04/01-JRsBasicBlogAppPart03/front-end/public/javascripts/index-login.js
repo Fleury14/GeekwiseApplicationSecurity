@@ -123,7 +123,8 @@ MyBlogApp.searchPosts = function(e) {
     let searchVal = $('#searchField').val();
     $('#search').val("");
 
-    jQuery.post(`${_baseUrl}:${_port}/api/post/search`, { search: searchVal}, function(data) {
+    let token = MyBlogApp.getCookie('jwt');
+    jQuery.post(`${_baseUrl}:${_port}/api/post/search`, { search: searchVal, jwt: token}, function(data) {
         data.data.forEach((blogpost) => {
             let postDate = formatDate(new Date(blogpost.created_at));
             let newBlogItem = document.createElement('div');
