@@ -3,7 +3,7 @@ const PostDb = require('../db/post.db');
 const Common = require('./common');
 const jwt = require('jsonwebtoken');
 
-const _JWTSECRET = 'symmain';
+const _JWTSECRET = 'hanzomain';
 
 class PostController {
     constructor(router) {
