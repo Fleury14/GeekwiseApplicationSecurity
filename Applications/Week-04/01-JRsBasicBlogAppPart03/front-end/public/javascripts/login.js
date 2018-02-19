@@ -11,6 +11,8 @@ MyBlogApp.loginHandler = function(e) {
         if (status === 200) {
             MyBlogApp.login(data.data.username);
             document.location.href = '/users/welcome?name=' + data.data.username;
+            MyBlogApp.setCookie('jwt', data.data.jwtToken, 1);
+            // console.log('DAAAAAAATA', data);
         } else if (status === 404) {
             MyBlogApp.toast('danger', data.message);
         }

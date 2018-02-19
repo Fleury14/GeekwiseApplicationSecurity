@@ -2,9 +2,10 @@ const User = require('../models/user.model');
 const UserDb = require('../db/user.db');
 const Common = require('./common');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const SALT_ROUNDS = 15;
-
+const _JWTSECRET = 'hanzomain';
 const LOGIN_FAIL = 'Email or Password was incorrect.';
 
 class UserController {
@@ -32,7 +33,9 @@ class UserController {
             if (data) {
                 let result = await bcrypt.compare(password, data.password);
                 if (result) {
+                    let token = jwt.sign({user: data.username}, _JWTSECRET);
                     let user = new User(data);
+                    user.jwtToken = token;
                     return Common.resultOk(res, user);
                 } else {
                     return Common.resultNotFound(res, LOGIN_FAIL);

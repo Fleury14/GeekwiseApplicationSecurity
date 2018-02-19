@@ -8,6 +8,7 @@ var csurf = require('csurf');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var errors = require('./routes/errors');
 
 var app = express();
 
@@ -30,15 +31,32 @@ app.use(function(req, res, next) {
   next();
 });
 
+// HEADERS
+app.use(function(req, res, next) {
+  console.log('HEADERZZZ:', JSON.stringify(req.headers));
+  next();
+})
+
+
+app.use(csurf({cookie: true}));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/error', errors);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
+});
+
+// CSRF error handler
+app.use(function(err, req, res, next) {
+  if (err.code !== 'EBADCSRFTOKEN') return next(err)
+
+  // handle CSRF token errors here
+  res.redirect('/error/401');
 });
 
 

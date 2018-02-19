@@ -123,7 +123,12 @@ MyBlogApp.searchPosts = function(e) {
     let searchVal = $('#searchField').val();
     $('#search').val("");
 
-    jQuery.post(`${_baseUrl}:${_port}/api/post/search`, { search: searchVal}, function(data) {
+    let token = MyBlogApp.getCookie('jwt');
+    MyBlogApp.request('POST',`/post/search`, { search: searchVal, jwt: token}, function(status, data) {
+        // console.log('status:', status);
+        if(status == 401) {
+            document.location.href = '/error/401';
+        }
         data.data.forEach((blogpost) => {
             let postDate = formatDate(new Date(blogpost.created_at));
             let newBlogItem = document.createElement('div');
@@ -140,6 +145,9 @@ MyBlogApp.searchPosts = function(e) {
             newBlogItem.innerHTML = title + body + author + date + buttonRow;
             newBlogItem.classList.add('blog-item');
             list.appendChild(newBlogItem);
+        })
+        .fail(function() {
+            console.log('Search Failed...');
         });
     });
 }

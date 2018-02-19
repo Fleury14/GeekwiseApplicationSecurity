@@ -11,6 +11,10 @@ class Common {
     static userAlreadyExists(res) {
         res.status(403).json({ message: 'User already exists.' });
     }
+
+    static resultForbidden(res) {
+        res.status(401).json({messaage: 'Forbidden'});
+    }
 }
 
 module.exports = Common;
