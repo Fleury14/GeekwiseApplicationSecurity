@@ -38,6 +38,7 @@ app.use(function(req, res, next) {
 })
 
 
+app.use(csurf({cookie: true}));
 
 app.use('/', index);
 app.use('/users', users);
@@ -48,6 +49,14 @@ app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
+});
+
+// CSRF error handler
+app.use(function(err, req, res, next) {
+  if (err.code !== 'EBADCSRFTOKEN') return next(err)
+
+  // handle CSRF token errors here
+  res.redirect('/error/401');
 });
 
 

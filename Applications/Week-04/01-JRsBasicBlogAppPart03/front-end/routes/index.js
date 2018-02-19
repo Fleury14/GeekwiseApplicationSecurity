@@ -6,7 +6,7 @@ var csrfProt = csurf({cookie: true});
 
 
 /* GET home page. */
-router.get('/', csrfProt, async function(req, res, next) {
+router.get('/', async function(req, res, next) {
     // Cookies that have not been signed
     console.log('Cookies: ', req.cookies)
 
