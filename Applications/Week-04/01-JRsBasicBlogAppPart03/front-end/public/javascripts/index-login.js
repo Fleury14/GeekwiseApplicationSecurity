@@ -17,28 +17,63 @@ MyBlogApp.toggleForm = function() {
 
 MyBlogApp.getPosts = function() {
     let blogContainer = document.getElementById('post-list');
-    console.log('Getting..');
+    console.log('Getting, this time with more ajax..');
     blogContainer.innerHTML = '';
-    jQuery.get(`${_baseUrl}:3000/api/post`, function(data) {
-        data.data.forEach((blogpost) => {
-            let postDate = formatDate(new Date(blogpost.created_at));
-            let newBlogItem = document.createElement('div');
-            let author = `<h5>Posted by ${blogpost.author}</h5>`;
-            let title = `<h3 class="blog-item-title">${blogpost.title}</h3>`
-            let body = `<p>${blogpost.post}</p>`;
-            let date = `<p>${postDate} - ${blogpost.id}</p>`;
-            let buttonRow = `<div class="blog-item-button-row">
-            <a href="#" data-blogid="${blogpost.id}" onclick="MyBlogApp.delPost(event)" class="btn btn-danger">Delete Post</a>
-            <span class="text-center">${blogpost.id}</span>
-            <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.post}" data-blogtitle="${blogpost.title}" onclick="MyBlogApp.editPost(event)" class="btn btn-success">Edit Post</a>
-            </div>`;
+    let token = window.localStorage.getItem('jwt');
+    $.ajax({
+        url: `${_baseUrl}:3000/api/post`,
+        type: 'GET',
+        // beforeSend: function (xhr) {
+        //     xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+        // },
+        headers: {'Authorization': token },
+        success: function(data) {
+            data.data.forEach((blogpost) => {
+                let postDate = formatDate(new Date(blogpost.created_at));
+                let newBlogItem = document.createElement('div');
+                let author = `<h5>Posted by ${blogpost.author}</h5>`;
+                let title = `<h3 class="blog-item-title">${blogpost.title}</h3>`
+                let body = `<p>${blogpost.post}</p>`;
+                let date = `<p>${postDate} - ${blogpost.id}</p>`;
+                let buttonRow = `<div class="blog-item-button-row">
+                <a href="#" data-blogid="${blogpost.id}" onclick="MyBlogApp.delPost(event)" class="btn btn-danger">Delete Post</a>
+                <span class="text-center">${blogpost.id}</span>
+                <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.post}" data-blogtitle="${blogpost.title}" onclick="MyBlogApp.editPost(event)" class="btn btn-success">Edit Post</a>
+                </div>`;
+                
+                newBlogItem.innerHTML = title + body + author + date + buttonRow;
+                newBlogItem.classList.add('blog-item');
+                blogContainer.appendChild(newBlogItem);
+    
+            });
+        },
+        error: function(err) {
+            console.log('error:', err.status);
+            if (err.status == 401) {
+                document.location.href = '/error/401';
+            }
+        }
+    })
+    // jQuery.get(`${_baseUrl}:3000/api/post`, function(data) {
+    //     data.data.forEach((blogpost) => {
+    //         let postDate = formatDate(new Date(blogpost.created_at));
+    //         let newBlogItem = document.createElement('div');
+    //         let author = `<h5>Posted by ${blogpost.author}</h5>`;
+    //         let title = `<h3 class="blog-item-title">${blogpost.title}</h3>`
+    //         let body = `<p>${blogpost.post}</p>`;
+    //         let date = `<p>${postDate} - ${blogpost.id}</p>`;
+    //         let buttonRow = `<div class="blog-item-button-row">
+    //         <a href="#" data-blogid="${blogpost.id}" onclick="MyBlogApp.delPost(event)" class="btn btn-danger">Delete Post</a>
+    //         <span class="text-center">${blogpost.id}</span>
+    //         <a href="#" data-blogid="${blogpost.id}" data-blogauthor="${blogpost.author}" data-blogcontent="${blogpost.post}" data-blogtitle="${blogpost.title}" onclick="MyBlogApp.editPost(event)" class="btn btn-success">Edit Post</a>
+    //         </div>`;
             
-            newBlogItem.innerHTML = title + body + author + date + buttonRow;
-            newBlogItem.classList.add('blog-item');
-            blogContainer.appendChild(newBlogItem);
+    //         newBlogItem.innerHTML = title + body + author + date + buttonRow;
+    //         newBlogItem.classList.add('blog-item');
+    //         blogContainer.appendChild(newBlogItem);
 
-        });
-    });
+    //     });
+    // });
 }
 
 MyBlogApp.addPost = function(e) {
@@ -122,8 +157,7 @@ MyBlogApp.searchPosts = function(e) {
     list.innerHTML = "";
     let searchVal = $('#searchField').val();
     $('#search').val("");
-
-    let token = MyBlogApp.getCookie('jwt');
+    let token = window.localStorage.getItem('jwt');
     MyBlogApp.request('POST',`/post/search`, { search: searchVal, jwt: token}, function(status, data) {
         // console.log('status:', status);
         if(status == 401) {
