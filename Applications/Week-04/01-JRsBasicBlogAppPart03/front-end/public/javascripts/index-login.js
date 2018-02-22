@@ -23,9 +23,6 @@ MyBlogApp.getPosts = function() {
     $.ajax({
         url: `${_baseUrl}:3000/api/post`,
         type: 'GET',
-        // beforeSend: function (xhr) {
-        //     xhr.setRequestHeader('Authorization', 'Bearer ' + token);
-        // },
         headers: {'Authorization': token },
         success: function(data) {
             data.data.forEach((blogpost) => {
