@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const SALT_ROUNDS = 15;
-const _JWTSECRET = 'hanzomain';
+const _JWTSECRET = process.env.JWTSECRET;
 const LOGIN_FAIL = 'Email or Password was incorrect.';
 
 class UserController {

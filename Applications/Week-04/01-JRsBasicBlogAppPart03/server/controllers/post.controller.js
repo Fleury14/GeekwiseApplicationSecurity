@@ -2,8 +2,9 @@ const Post = require('../models/post.model');
 const PostDb = require('../db/post.db');
 const Common = require('./common');
 const jwt = require('jsonwebtoken');
+// require('dotenv').config();
 
-const _JWTSECRET = 'hanzomain';
+const _JWTSECRET = process.env.JWTSECRET;
 
 class PostController {
     constructor(router) {
@@ -96,6 +97,9 @@ class PostController {
 
     async getAll(req, res, next) {
         try {
+            console.log('Request Headers Auth:', req.headers['authorization']);
+            let token = req.headers['authorization'];
+            let decoded = jwt.verify(token, _JWTSECRET);
             const data = await PostDb.getAll();
             if (data) {
                 let posts = data.map(p => { return new Post(p) });
@@ -104,6 +108,9 @@ class PostController {
                 return Common.resultNotFound(res);
             }
         } catch (e) {
+            if (e.name == 'JsonWebTokenError') {
+                return Common.resultForbidden(res);
+            }
             return Common.resultErr(res, e.message);
         }
     }
