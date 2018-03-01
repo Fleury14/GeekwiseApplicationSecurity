@@ -11,7 +11,7 @@ let MyBlogApp = {};
 
   MyBlogApp.user = null;
   MyBlogApp.tok = null;
-  MyBlogApp.apiUrl = 'http://localhost:3000/api';
+  MyBlogApp.apiUrl = 'http://192.168.99.100:3000/api';
   MyBlogApp.apiRequest = function( method, url, payload, handler ) {
     const xhr = new XMLHttpRequest();
     if ( !handler && typeof payload === 'function' ) {

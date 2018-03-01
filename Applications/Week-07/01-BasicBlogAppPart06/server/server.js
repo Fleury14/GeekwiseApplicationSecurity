@@ -14,7 +14,7 @@ const common = require( './controllers/common' );
 //////////////////
 
 app.set( "env", process.env.NODE_ENV || "development" );
-app.set( "host", process.env.HOST || "0.0.0.0" );
+app.set( "host", process.env.HOST || "192.168.99.100" );
 app.set( "port", process.env.PORT || 3000 );
 
 ///////////////////////
