@@ -296,7 +296,7 @@ class UserController {
     res.cookie( 'refreshToken', refreshToken, {
       maxAge: 3600 * 24 * 90 * 1000, // 180 days
       httpOnly: true,
-      domain: `localhost`, // todo - make this honor env settings
+      domain: `192.168.99.100`, // todo - make this honor env settings
       path: '/api/user/token'
     } );
   }
