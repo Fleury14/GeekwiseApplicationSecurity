@@ -10,6 +10,23 @@ MyBlogApp.onload( () => {
     const by = document.getElementById( 'orderBy' )
       .value;
 
+    const userstatus = MyBlogApp.parseJwt(MyBlogApp.jwtToken);
+    console.log(userstatus.access.permission);
+    let viewPosts = false;
+    userstatus.access.permission.forEach(permission => {
+      if (permission.id === 5) {
+        console.log('permission found!');
+        viewPosts = true;
+      }}); 
+      if (viewPosts === true) {
+        MyBlogApp.fetchFeed();
+      } else {
+        window.location.href = '/error/403';
+        // var error = new Error( 'Permission denied, you do not have access' );
+        //   throw error;
+      }
+    
+
     let pageLimit = 10;
     let currPage = page.pagination( 'getCurrentPage' );
     console.log( currPage )
@@ -136,21 +153,6 @@ MyBlogApp.onload( () => {
 
   console.log( 'fetch' )
   // console.log('teeest', MyBlogApp.parseJwt(MyBlogApp.jwtToken));
-  const userstatus = MyBlogApp.parseJwt(MyBlogApp.jwtToken);
-  console.log(userstatus.access.permission);
-  let viewPosts = false;
-  userstatus.access.permission.forEach(permission => {
-    if (permission.id === 5) {
-      console.log('permission found!');
-      viewPosts = true;
-    } 
-    if (viewPosts === true) {
-      MyBlogApp.fetchFeed();
-    } else {
-      var error = new Error( 'Permission denied, you do not have access' );
-        throw error;
-    }
+  MyBlogApp.fetchFeed();
   })
   
-
-} );
