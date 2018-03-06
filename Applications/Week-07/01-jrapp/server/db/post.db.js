@@ -14,6 +14,7 @@ class PostDb {
   }
 
   static async getAll( order, by, pageLimit, page ) {
+    // let currentUserId = MyBlogApp.parseJwt(MyBlogApp.jwtToken);
     let byParam = 'created_at';
     switch ( by ) {
       case 'Author':
