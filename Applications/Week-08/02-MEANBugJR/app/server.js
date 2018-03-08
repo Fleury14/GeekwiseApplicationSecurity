@@ -32,23 +32,23 @@ app.use(session({
 	}
 }));
 
-//bind to interface localhost:9000
+//bind to interface mongodb:9000
 app.listen(9000, function(){
 	if(process.env.NODE_ENV === undefined)
 		process.env.NODE_ENV = 'development';
-	console.log("Server running on localhost, port %d in %s mode.", this.address().port, process.env.NODE_ENV);
+	console.log("Server running on mongodb, port %d in %s mode.", this.address().port, process.env.NODE_ENV);
 });
 
 function authenticate(user, pass, req, res){
 	//connect to MongoDB - auth not enabled 
-	//also, http interface enabled at http://localhost:28017/
+	//also, http interface enabled at http://mongodb:28017/
 	//can bypass with query selector injection (i.e., user=admin&pass[$gt]=)
-	mongo.connect('mongodb://localhost:27017/users', function(err, db){
+	mongo.connect('mongodb://mongodb:27017/users', function(err, db){
 		if(err){ 
 			console.log('MongoDB connection error...');
 			return err;
 		}
-		db.collection('collection').findOne({username: user, password: pass, isActive: true},function(err, result){
+		db.collection('collection').findOne({username: String(user), password: String(pass), isActive: true},function(err, result){
 			if(err){
 				console.log('Query error...');
 				return err;
@@ -66,8 +66,8 @@ function authenticate(user, pass, req, res){
 
 var queryMongo = function(res, database, collectionName, field, value){
 	//connect to MongoDB - auth not enabled 
-	//also, http interface enabled at http://localhost:28017/
-	mongo.connect('mongodb://localhost:27017/'+database, function(err, db){
+	//also, http interface enabled at http://mongodb:28017/
+	mongo.connect('mongodb://mongodb:27017/'+database, function(err, db){
 		if(err){ 
 			console.log('MongoDB connection error...');
 			return err;
@@ -165,8 +165,8 @@ app.use(function (err, req, res, next) {
 //remove invoice
 app.get('/secure/removeInvoice', function(req, res){
 	//connect to MongoDB - auth not enabled 
-	//also, http interface enabled at http://localhost:28017/
-	mongo.connect('mongodb://localhost:27017/billing', function(err, db){
+	//also, http interface enabled at http://mongodb:28017/
+	mongo.connect('mongodb://mongodb:27017/billing', function(err, db){
 		if(err){ 
 			console.log(err);
 			res.status(500).send('Could not connect to database...');
@@ -194,15 +194,29 @@ app.post('/secure/addInvoice', function(req, res){
 	//build invoice	- inputs are not validated and invoice object is open to parameter pollution
 	var invoice = req.body;
 
+	var newInvoice = {
+		id: String(req.body.id),
+		lName: String(req.body.lName),
+		fName: String(req.body.fName),
+		item: String(req.body.item),
+		quantity: String(req.body.quantity),
+		price: String(req.body.price),
+		paid: Boolean(req.body.paid),
+		ccn: String(req.body.ccn)
+
+	}
+
+	console.log('old', invoice, 'new', newInvoice);
+
 	//connect to MongoDB - auth not enabled 
-	//also, http interface enabled at http://localhost:28017/
-	mongo.connect('mongodb://localhost:27017/billing', function(err, db){
+	//also, http interface enabled at http://mongodb:28017/
+	mongo.connect('mongodb://mongodb:27017/billing', function(err, db){
 		if(err){ 
 			console.log(err);
 			res.status(500).send('Could not add invoice...');
 			return;
 		}
-		db.collection('invoices').insert(invoice, function(err, record){
+		db.collection('invoices').insert(newInvoice, function(err, record){
 			if(err){
 				console.log(err);
 				res.status(500).send('Could not add invoice...');
