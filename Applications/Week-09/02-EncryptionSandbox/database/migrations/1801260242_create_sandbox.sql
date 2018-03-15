@@ -4,6 +4,10 @@ CREATE TABLE sandbox (
     data2 character varying,
     data3 character varying,
     data4 character varying,
+    data5 character varying,
+    data6 character varying,
+    data7 character varying,
+    data8 character varying,
     created_at timestamp NOT NULL default now(),
     updated_at timestamp NOT NULL default now()
 );
